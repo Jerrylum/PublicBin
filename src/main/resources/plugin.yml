@@ -1,0 +1,15 @@
+main: com.jerryio.publicbin.PublicBinPlugin
+name: PublicBin
+version: ${project.version}
+description: PublicBin provides a place to discard unwanted items and retrieve items discarded by other players.
+author: JerryLum
+website: jerryio.com
+prefix: PublicBin
+api: []
+softdepend:
+- PlaceholderAPI
+commands:
+  publicbin:
+    description: PublicBin base command
+    usage: Sorry, PublicBin command disabled.
+    aliases: [trash, trashcan, garbage, garbagecan, rubbish, rubbishbin, bin, disposal]
