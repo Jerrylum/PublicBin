@@ -7,6 +7,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.disk.PluginSetting;
+import com.jerryio.publicbin.enums.ModeEnum;
+import com.jerryio.publicbin.listener.MainListener;
+import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.objects.PrivateBinManager;
+import com.jerryio.publicbin.objects.PublicBinManager;
 import com.jerryio.publicbin.util.PluginLog;
 
 
@@ -17,6 +22,8 @@ public class PublicBinPlugin extends JavaPlugin {
     public PluginSetting setting;
     
     public BinCommandHandler commandHandler;
+    
+    public BinManager binManager;
 
     @Override
     public void onEnable() {
@@ -29,6 +36,12 @@ public class PublicBinPlugin extends JavaPlugin {
         
         // initial command handler
         commandHandler = BinCommandHandler.load(this);
+        
+        // initial bin manager
+        binManager = setting.getMode() == ModeEnum.ShareMode ? new PublicBinManager() : new PrivateBinManager();
+        
+        // initial listener
+        MainListener.load(this);
 
         // set console debug mode by config value
         PluginLog.setDebugEnabled(setting.isDebug());
@@ -51,6 +64,10 @@ public class PublicBinPlugin extends JavaPlugin {
     
     public static BinCommandHandler getCommandHandler() {
         return instance.commandHandler;
+    }
+    
+    public static BinManager getBinManager() {
+        return instance.binManager;
     }
 
     private void doSingletonPatternCheckAndInitial() {

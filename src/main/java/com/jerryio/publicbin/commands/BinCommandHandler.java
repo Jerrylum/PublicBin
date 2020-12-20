@@ -57,10 +57,10 @@ public class BinCommandHandler implements CommandExecutor {
         if (args.length == 0) {
             if (CommandValidator.isPlayerSender(sender)) {
                 target = getSubCommand(UseCommand.class);
-                args = new String[]{"use"};
             } else {
-                target = getSubCommand(ClearCommand.class);
+                target = getSubCommand(HelpCommand.class);
             }
+            args = new String[]{""};
         } else {
             for (BinSubCommand subCommand : subCommands) {
                 if (!subCommand.isValidTrigger(args[0])) continue;

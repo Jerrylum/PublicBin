@@ -48,7 +48,6 @@ public abstract class BinSubCommand {
     public abstract List<String> getTutorial();
     
     public final boolean isValidTrigger(String name) {
-        PluginLog.logDebug(Level.INFO, ">>" + this.getName() + ">>" + name);
         if (this.getName().equalsIgnoreCase(name)) {
             return true;
         }

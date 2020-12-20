@@ -34,6 +34,6 @@ public class ReloadCommand extends BinSubCommand {
 
     @Override
     public List<String> getTutorial() {
-        return Arrays.asList("Reloads the config file.");
+        return Arrays.asList("Clears all bins and reloads the config file.");
     }
 }
