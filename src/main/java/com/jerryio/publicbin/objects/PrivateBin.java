@@ -9,4 +9,10 @@ public class PrivateBin extends Bin {
         super(Bukkit.createInventory(p, 9 * 6, "Trash Bin (" + p.getName() + ")"));        
         
     }
+
+    @Override
+    public void requestUpdate() {
+        // TODO Auto-generated method stub
+        
+    }
 }

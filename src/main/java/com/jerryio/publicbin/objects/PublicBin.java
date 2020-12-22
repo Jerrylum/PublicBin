@@ -9,4 +9,5 @@ public class PublicBin extends Bin {
         super(Bukkit.createInventory(null, 9 * 6, "Trash Bin (Public)"));        
         
     }
+
 }

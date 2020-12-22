@@ -40,7 +40,7 @@ public class PublicBinPlugin extends JavaPlugin {
         // initial bin manager
         binManager = setting.getMode() == ModeEnum.ShareMode ? new PublicBinManager() : new PrivateBinManager();
         
-        // initial listener
+        // initial event listener
         MainListener.load(this);
 
         // set console debug mode by config value
