@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.sub.*;
+import com.jerryio.publicbin.util.I18n;
 import com.jerryio.publicbin.util.PluginLog;
 
 public class BinCommandHandler implements CommandExecutor {
@@ -67,30 +68,29 @@ public class BinCommandHandler implements CommandExecutor {
                     continue;
 
                 if (!subCommand.hasPermission(sender)) {
-                    sender.sendMessage(Colors.ERROR + "You don't have permission.");
+                    I18n.sendMessage(sender, "command-no-permission");
                     return true;
                 }
 
                 if (args.length - 1 >= subCommand.getMinimumArguments()) {
                     target = subCommand;
                 } else {
-                    sender.sendMessage(Colors.ERROR + "Usage: /" + label + " " + subCommand.getName() + " "
-                            + subCommand.getPossibleArguments());
+                    I18n.sendMessage(sender, "command-usage-suggestion", label, subCommand.getName(),
+                            subCommand.getPossibleArguments());
                     return true;
                 }
             }
         }
 
         if (target == null) {
-            sender.sendMessage(
-                    Colors.ERROR + "Unknown sub-command. Type \"/" + label + " help\" for a list of commands.");
+            I18n.sendMessage(sender, "command-unknown", label);
         } else {
             try {
                 target.execute(sender, label, Arrays.copyOfRange(args, 1, args.length));
             } catch (CommandException e) {
                 sender.sendMessage(Colors.ERROR + e.getMessage());
             } catch (Exception e) {
-                sender.sendMessage(Colors.ERROR + "An unknow error occurred. Turn on debug mode to see what's happened");
+                I18n.sendMessage(sender, "command-exception");
                 if (PublicBinPlugin.getPluginSetting().isDebug())
                     e.printStackTrace();
             }

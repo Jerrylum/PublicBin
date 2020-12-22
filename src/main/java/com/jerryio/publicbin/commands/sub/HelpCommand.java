@@ -13,6 +13,7 @@ import com.jerryio.publicbin.commands.BinSubCommand;
 import com.jerryio.publicbin.commands.Colors;
 import com.jerryio.publicbin.commands.CommandValidator;
 import com.jerryio.publicbin.commands.Strings;
+import com.jerryio.publicbin.util.I18n;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -71,20 +72,20 @@ public class HelpCommand extends BinSubCommand {
     
     private static void sendHoverTip(Player player) {
         player.sendMessage("");
-        player.spigot().sendMessage(new ComponentBuilder("TIP:").color(ChatColor.YELLOW).bold(true)
-            .append(" Try to ", FormatRetention.NONE).color(ChatColor.GRAY)
-            .append("hover").color(ChatColor.WHITE).underlined(true)
-            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.LIGHT_PURPLE + "Hover on the commands to get info about them.")))
-            .append(" or ", FormatRetention.NONE).color(ChatColor.GRAY)
-            .append("click").color(ChatColor.WHITE).underlined(true)
-            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.LIGHT_PURPLE + "Click on the commands to insert them in the chat.")))
-            .append(" on the commands!", FormatRetention.NONE).color(ChatColor.GRAY)
+        player.spigot().sendMessage(new ComponentBuilder(I18n.t("command-help-tips")).color(ChatColor.YELLOW).bold(true)
+            .append(I18n.t("command-help-try"), FormatRetention.NONE).color(ChatColor.GRAY)
+            .append(I18n.t("command-help-hover")).color(ChatColor.WHITE).underlined(true)
+            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.LIGHT_PURPLE + I18n.t("command-help-hover-show"))))
+            .append(I18n.t("command-help-or"), FormatRetention.NONE).color(ChatColor.GRAY)
+            .append(I18n.t("command-help-click")).color(ChatColor.WHITE).underlined(true)
+            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.LIGHT_PURPLE + I18n.t("command-help-click-show"))))
+            .append(I18n.t("command-help-on-it"), FormatRetention.NONE).color(ChatColor.GRAY)
             .create());
     }
 
     @Override
     public List<String> getTutorial() {
-        return Arrays.asList("Shows this help menu.");
+        return Arrays.asList(I18n.t("command-help-tutorial"));
     }
 
 }

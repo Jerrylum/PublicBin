@@ -12,6 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.enums.ModeEnum;
 import com.jerryio.publicbin.enums.OrderEnum;
+import com.jerryio.publicbin.util.I18n;
 import com.jerryio.publicbin.util.PluginLog;
 
 public class PluginSetting {
@@ -51,6 +52,10 @@ public class PluginSetting {
     
     private PluginSetting(YamlConfiguration config) {
         this.config = config;
+    }
+    
+    public String getLang() {
+        return config.getString("lang", "en_US"); 
     }
     
     public ModeEnum getMode() {
@@ -105,7 +110,7 @@ public class PluginSetting {
                 alpha[0] = Character.toUpperCase(alpha[0]);
                 rtn.add(OrderEnum.valueOf(new String(alpha)));
             }catch (Exception e) {
-                PluginLog.log(Level.WARNING, "Unknown sorting parameters \"" + target + "\", ignored, maybe a typo on file \"config.yml\"");
+                PluginLog.log(Level.WARNING, I18n.t("config-unknown-sorting-param", target));
             }
             
         }

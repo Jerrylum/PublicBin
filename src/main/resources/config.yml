@@ -1,3 +1,6 @@
+# Using language, for example: en_US, zh, zh_TW
+lang: en_US
+
 # The inventory mode can be...
 # - share (default, everyone using the same bin)
 # - separate (everyone has their own bin)
@@ -21,8 +24,8 @@ remove-when-full:
   # Sort according to these principles, priority from top to bottom
   # Item with the lower priority will be removed
   order:
-  - type
   - metadata
+  - type
   - durability
   - amount
   - time

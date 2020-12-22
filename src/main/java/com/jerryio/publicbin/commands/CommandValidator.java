@@ -4,6 +4,8 @@ import org.bukkit.command.CommandException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.jerryio.publicbin.util.I18n;
+
 public class CommandValidator {
     public static void notNull(Object obj, String string) throws CommandException {
         if (obj == null) {
@@ -21,7 +23,7 @@ public class CommandValidator {
         try {
             return Integer.parseInt(integer);
         } catch (NumberFormatException ex) {
-            throw new CommandException("Invalid number: '" + integer + "'.");
+            throw new CommandException(I18n.t("command-not-integer", integer));
         }
     }
 
@@ -38,7 +40,7 @@ public class CommandValidator {
         if (sender instanceof Player) {
             return (Player) sender;
         } else {
-            throw new CommandException("You must be a player to use this command.");
+            throw new CommandException(I18n.t("command-not-player"));
         }
     }
 

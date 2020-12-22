@@ -15,6 +15,7 @@ import com.jerryio.publicbin.commands.CommandValidator;
 import com.jerryio.publicbin.commands.Strings;
 import com.jerryio.publicbin.enums.ModeEnum;
 import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.util.I18n;
 
 public class ClearCommand extends BinSubCommand {
     
@@ -44,21 +45,21 @@ public class ClearCommand extends BinSubCommand {
         
         if (isShareMode()) {
             manager.getUsableBin(null).clear();
-            sender.sendMessage(Colors.PRIMARY + "Cleared public bin");
+            I18n.sendMessage(sender, "command-clear-public-bin");
         } else {
             if (args.length > 0) {
                 Player target = Bukkit.getServer().getPlayer(args[0]);
                 if (target == null) {                    
-                    sender.sendMessage(Colors.ERROR + "Target not found");
+                    I18n.sendMessage(sender, "command-target-404");
                 } else {
                     manager.getUsableBin(target).clear();
-                    sender.sendMessage(Colors.PRIMARY + "Cleared " + target.getName() + "'s bin");
+                    I18n.sendMessage(sender, "command-clear-player-bin", target.getName());
                 }
                     
             } else {
                 Player p = CommandValidator.getPlayerSender(sender); 
                 manager.getUsableBin(p).clear();
-                sender.sendMessage(Colors.PRIMARY + "Cleared your bin");
+                I18n.sendMessage(sender, "command-clear-your-bin");
             }
         }
     }
@@ -66,12 +67,9 @@ public class ClearCommand extends BinSubCommand {
     @Override
     public List<String> getTutorial() {
         if (isShareMode())
-            return Arrays.asList(
-                    "Clears the public bin.");
+            return Arrays.asList(I18n.t("command-clear-tutorial-public"));
         else
-            return Arrays.asList(
-                    "Clears a player's trash bin. Clears your own trash bin",
-                    "when the player name is not provided.");
+            return Arrays.asList(I18n.t("command-clear-tutorial-private").split("\n"));
     }
     
     private static boolean isShareMode() {

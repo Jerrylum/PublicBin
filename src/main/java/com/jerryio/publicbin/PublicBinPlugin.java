@@ -9,6 +9,7 @@ import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.disk.PluginSetting;
 import com.jerryio.publicbin.listener.MainListener;
 import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.util.I18n;
 import com.jerryio.publicbin.util.PluginLog;
 
 public class PublicBinPlugin extends JavaPlugin {
@@ -29,6 +30,9 @@ public class PublicBinPlugin extends JavaPlugin {
 
         // initial config
         setting = PluginSetting.load(this);
+        
+        // initial language setting
+        I18n.load(setting.getLang());
 
         // initial command handler
         commandHandler = BinCommandHandler.load(this);
@@ -49,7 +53,7 @@ public class PublicBinPlugin extends JavaPlugin {
     public void onDisable() {
         binManager.close();
 
-        PluginLog.log(Level.INFO, "Disabled.");
+        PluginLog.info(I18n.t("plugin-disabled"));
     }
 
     public void onReload() {
@@ -57,6 +61,9 @@ public class PublicBinPlugin extends JavaPlugin {
 
         // reload config
         setting = PluginSetting.load(this);
+
+        // initial language setting
+        I18n.load(setting.getLang());
 
         // initial bin manager
         binManager = BinManager.load(this);
@@ -87,8 +94,7 @@ public class PublicBinPlugin extends JavaPlugin {
         // Warn about plugin reloaders and the /reload command.
         if (instance != null || System.getProperty("PublicBinLoaded") != null) {
             // important, don't use PluginLog here
-            getLogger().log(Level.WARNING,
-                    "Please do not use /reload or plugin reloaders. Use the command \"/bin reload\" instead. You will receive no support for doing this operation.");
+            getLogger().log(Level.WARNING, I18n.t("plugin-singleton-warning"));
         }
 
         System.setProperty("PublicBinLoaded", "true");
@@ -100,7 +106,7 @@ public class PublicBinPlugin extends JavaPlugin {
     }
 
     private void doPrintDebugMsg() {
-        PluginLog.log(Level.INFO, "Enabled. Debug = " + setting.isDebug());
+        PluginLog.info(I18n.t("plugin-enabled", setting.isDebug()));
         if (setting.isDebug()) { // optimization
             PluginLog.logDebug(Level.INFO, "Using mode = " + setting.getMode());
             PluginLog.logDebug(Level.INFO,

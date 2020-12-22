@@ -34,4 +34,12 @@ public class PluginLog {
     public static void logDebug(Level level, String msg) {
         logDebug(level, msg, null);
     }
+    
+    public static void info(String msg) {
+        log(Level.INFO, msg);
+    }
+    
+    public static void warn(String msg) {
+        log(Level.WARNING, msg);
+    }
 }

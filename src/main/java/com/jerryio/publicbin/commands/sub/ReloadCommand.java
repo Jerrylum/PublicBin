@@ -10,6 +10,7 @@ import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinSubCommand;
 import com.jerryio.publicbin.commands.Colors;
 import com.jerryio.publicbin.commands.Strings;
+import com.jerryio.publicbin.util.I18n;
 
 public class ReloadCommand extends BinSubCommand {
     public ReloadCommand() {
@@ -30,11 +31,11 @@ public class ReloadCommand extends BinSubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) throws CommandException {       
         PublicBinPlugin.getInstance().onReload();
-        sender.sendMessage(Colors.PRIMARY + "Reloaded.");
+        I18n.sendMessage(sender, "command-reload-done");
     }
 
     @Override
     public List<String> getTutorial() {
-        return Arrays.asList("Clears all bins and reloads the config file.");
+        return Arrays.asList(I18n.t("command-reload-tutorial"));
     }
 }

@@ -11,6 +11,7 @@ import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinSubCommand;
 import com.jerryio.publicbin.commands.CommandValidator;
 import com.jerryio.publicbin.commands.Strings;
+import com.jerryio.publicbin.util.I18n;
 
 public class UseCommand extends BinSubCommand {
     public UseCommand() {
@@ -36,6 +37,6 @@ public class UseCommand extends BinSubCommand {
 
     @Override
     public List<String> getTutorial() {
-        return Arrays.asList("Opens the public bin or private bin.");
+        return Arrays.asList(I18n.t("command-use-tutorial"));
     }
 }
