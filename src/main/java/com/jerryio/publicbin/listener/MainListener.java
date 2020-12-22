@@ -10,6 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.jerryio.publicbin.PublicBinPlugin;
@@ -40,6 +42,16 @@ public class MainListener implements Listener {
         if (usingBin == null) return;
 
         usingBin.requestUpdate();
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    public void OnPlayerJoinEvent(PlayerJoinEvent event){
+        PublicBinPlugin.getBinManager().onPlayerJoin(event.getPlayer());
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void OnPlayerJoinEvent(PlayerQuitEvent event){
+        PublicBinPlugin.getBinManager().onPlayerQuit(event.getPlayer());
     }
     
     private Bin getInteractBin(InventoryInteractEvent event) {

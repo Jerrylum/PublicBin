@@ -67,13 +67,14 @@ public class BinCommandHandler implements CommandExecutor {
                     
                 if (!subCommand.hasPermission(sender)) {
                     sender.sendMessage(Colors.ERROR + "You don't have permission.");
-                    break;
+                    return true;
                 }
                 
                 if (args.length - 1 >= subCommand.getMinimumArguments()) {
                     target = subCommand;
                 } else {
                     sender.sendMessage(Colors.ERROR + "Usage: /" + label + " " + subCommand.getName() + " " + subCommand.getPossibleArguments());
+                    return true;
                 }
             }
         }

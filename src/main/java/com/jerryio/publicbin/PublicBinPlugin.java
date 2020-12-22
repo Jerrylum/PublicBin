@@ -3,6 +3,8 @@ package com.jerryio.publicbin;
 import java.util.Arrays;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jerryio.publicbin.commands.BinCommandHandler;
@@ -38,7 +40,7 @@ public class PublicBinPlugin extends JavaPlugin {
         commandHandler = BinCommandHandler.load(this);
         
         // initial bin manager
-        binManager = setting.getMode() == ModeEnum.ShareMode ? new PublicBinManager() : new PrivateBinManager();
+        binManager = BinManager.load(this);
         
         // initial event listener
         MainListener.load(this);
@@ -52,6 +54,8 @@ public class PublicBinPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         binManager.close();
+        
+        PluginLog.log(Level.INFO, "Disabled.");
     }
     
     public void onReload() {
@@ -61,10 +65,10 @@ public class PublicBinPlugin extends JavaPlugin {
         setting = PluginSetting.load(this);
         
         // initial bin manager
-        binManager = setting.getMode() == ModeEnum.ShareMode ? new PublicBinManager() : new PrivateBinManager();
+        binManager = BinManager.load(this);
 
         // set console debug mode by config value
-        PluginLog.setDebugEnabled(setting.isDebug());
+        PluginLog.setDebugEnabled(setting.isDebug());        
 
         doPrintDebugMsg();
     }

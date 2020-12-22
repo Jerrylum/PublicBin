@@ -1,8 +1,7 @@
 package com.jerryio.publicbin.objects;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,11 +9,21 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.disk.PluginSetting;
+import com.jerryio.publicbin.enums.ModeEnum;
 
 public abstract class BinManager {
     
     private BukkitTask scheduledTask;
     private int cacheKeepingTime;
+
+    public static BinManager load(PublicBinPlugin plugin) {
+        BinManager rtn = plugin.setting.getMode() == ModeEnum.ShareMode ? new PublicBinManager() : new PrivateBinManager();
+        
+        for (Player p : Bukkit.getServer().getOnlinePlayers())
+            rtn.onPlayerJoin(p);
+        
+        return rtn;
+    }
     
     public BinManager() {
         PublicBinPlugin plugin = PublicBinPlugin.getInstance();
@@ -25,6 +34,8 @@ public abstract class BinManager {
         
         if (setting.isAutoDespawnEnabled())
             scheduledTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> doCountdownDespawnCheck(), minWaitTime, 20);
+        
+        
     }
     
     public void close() {
@@ -48,5 +59,10 @@ public abstract class BinManager {
     
     public abstract Bin getUsableBin(Player p);
     
-    public abstract Set<Bin> getAllBin();
+    public abstract Collection<Bin> getAllBin();
+    
+    public abstract void onPlayerJoin(Player p);
+    
+    public abstract void onPlayerQuit(Player p);
+
 }

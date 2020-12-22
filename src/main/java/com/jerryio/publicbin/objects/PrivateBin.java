@@ -10,9 +10,4 @@ public class PrivateBin extends Bin {
         
     }
 
-    @Override
-    public void requestUpdate() {
-        // TODO Auto-generated method stub
-        
-    }
 }

@@ -1,5 +1,6 @@
 package com.jerryio.publicbin.objects;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,11 +20,17 @@ public class PublicBinManager extends BinManager {
     }
 
     @Override
-    public Set<Bin> getAllBin() {
+    public Collection<Bin> getAllBin() {
         HashSet<Bin> rtn = new HashSet<Bin>();
         rtn.add(bin);
         return rtn;
     }
     
+    public void onPlayerJoin(Player p) {
+        // Nothing to do
+    }
     
+    public void onPlayerQuit(Player p) {
+        // Nothing to do
+    }
 }
