@@ -1,15 +1,15 @@
 package com.jerryio.publicbin.listener;
 
-import java.util.logging.Level;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryInteractEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
@@ -46,6 +46,26 @@ public class MainListener implements Listener {
         usingBin.requestUpdate();
     }
 
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onInventoryOpenEvent​(InventoryOpenEvent event) {
+        Player p = (Player) event.getPlayer();
+        Bin usingBin = getInteractBin(event.getInventory(), p);
+        if (usingBin == null)
+            return;
+
+        playBinSound(p, "open");
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
+    public void onInventoryCloseEvent​(InventoryCloseEvent event) {
+        Player p = (Player) event.getPlayer();
+        Bin usingBin = getInteractBin(event.getInventory(), p);
+        if (usingBin == null)
+            return;
+
+        playBinSound(p, "close");
+    }
+
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
     public void OnPlayerJoinEvent(PlayerJoinEvent event) {
         PublicBinPlugin.getBinManager().onPlayerJoin(event.getPlayer());
@@ -59,6 +79,10 @@ public class MainListener implements Listener {
     private Bin getInteractBin(InventoryInteractEvent event) {
         Inventory topInventory = event.getInventory();
         Player p = (Player) event.getWhoClicked();
+        return getInteractBin(topInventory, p);
+    }
+
+    private Bin getInteractBin(Inventory topInventory, Player p) {
         Bin usableBin = PublicBinPlugin.getBinManager().getUsableBin(p);
 
         // Determine whether the user is using a trash bin (that they can use)
@@ -67,5 +91,10 @@ public class MainListener implements Listener {
         } else {
             return null;
         }
+    }
+    
+    private void playBinSound(Player p, String sub) {
+        boolean verCheck = Bukkit.getBukkitVersion().compareTo("1.15") >= 0;
+        p.playSound(p.getLocation(), (verCheck ? "block.barrel." : "block.shulker_box.") + sub, 1, 2f);
     }
 }

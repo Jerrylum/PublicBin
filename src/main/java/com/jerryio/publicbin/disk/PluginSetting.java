@@ -57,6 +57,10 @@ public class PluginSetting {
         return "share".equalsIgnoreCase(config.getString("mode")) ? ModeEnum.ShareMode : ModeEnum.SeparateMode; 
     }
     
+    public int getBinRow() {
+        return Math.min(Math.max(1, config.getInt("size", 6)), 6);
+    }
+    
     public boolean isAutoDespawnEnabled() {
         return config.getBoolean("countdown-despawn.enable", false);
     }

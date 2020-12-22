@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandException;
@@ -13,6 +14,7 @@ import org.bukkit.command.CommandSender;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.sub.*;
+import com.jerryio.publicbin.util.PluginLog;
 
 public class BinCommandHandler implements CommandExecutor {
 
@@ -87,6 +89,10 @@ public class BinCommandHandler implements CommandExecutor {
                 target.execute(sender, label, Arrays.copyOfRange(args, 1, args.length));
             } catch (CommandException e) {
                 sender.sendMessage(Colors.ERROR + e.getMessage());
+            } catch (Exception e) {
+                sender.sendMessage(Colors.ERROR + "An unknow error occurred. Turn on debug mode to see what's happened");
+                if (PublicBinPlugin.getPluginSetting().isDebug())
+                    e.printStackTrace();
             }
         }
 

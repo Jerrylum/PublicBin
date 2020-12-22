@@ -3,6 +3,9 @@
 # - separate (everyone has their own bin)
 mode: share
 
+# How many rows are in the bin
+size: 6
+
 # despawn after a certain amount of time
 countdown-despawn:
   enable: true
