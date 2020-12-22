@@ -56,14 +56,11 @@ public class ClearCommand extends BinSubCommand {
                 }
                     
             } else {
-                if (!CommandValidator.isPlayerSender(sender)) {
-                    throw new CommandException("Only in-game players can use this command.");
-                }
-                manager.getUsableBin((Player) sender).clear();
+                Player p = CommandValidator.getPlayerSender(sender); 
+                manager.getUsableBin(p).clear();
                 sender.sendMessage(Colors.PRIMARY + "Cleared your bin");
             }
         }
-        // TODO
     }
 
     @Override

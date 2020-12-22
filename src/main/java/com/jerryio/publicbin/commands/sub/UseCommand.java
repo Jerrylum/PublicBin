@@ -29,12 +29,8 @@ public class UseCommand extends BinSubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, String label, String[] args) throws CommandException {
-        if (!CommandValidator.isPlayerSender(sender)) {
-            throw new CommandException("Only in-game players can use this command.");
-        }
-
-        Player p = (Player) sender;
+    public void execute(CommandSender sender, String label, String[] args) throws CommandException {        
+        Player p = CommandValidator.getPlayerSender(sender); 
         p.openInventory(PublicBinPlugin.getBinManager().getUsableBin(p).getInventory());
     }
 
