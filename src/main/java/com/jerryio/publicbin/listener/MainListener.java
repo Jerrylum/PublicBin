@@ -16,18 +16,12 @@ import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.objects.Bin;
 
 public class MainListener implements Listener {
-    
-    private PublicBinPlugin plugin;
 
     public static MainListener load(PublicBinPlugin plugin) {
         MainListener rtn;
-        Bukkit.getPluginManager().registerEvents(rtn = new MainListener(plugin), plugin);
+        Bukkit.getPluginManager().registerEvents(rtn = new MainListener(), plugin);
 
         return rtn;
-    }
-    
-    private MainListener(PublicBinPlugin plugin) {
-        this.plugin = plugin;
     }
 
     // We process the click event when the player is allowed to.
@@ -51,7 +45,7 @@ public class MainListener implements Listener {
     private Bin getInteractBin(InventoryInteractEvent event) {
         Inventory topInventory = event.getInventory();
         Player p = (Player)event.getWhoClicked();
-        Bin usableBin = plugin.binManager.getUsableBin(p);
+        Bin usableBin = PublicBinPlugin.getBinManager().getUsableBin(p);
         
         // Determine whether the user is using a trash bin (that they can use)
         if (usableBin.getInventory().equals(topInventory)) {

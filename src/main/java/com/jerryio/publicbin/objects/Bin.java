@@ -3,6 +3,7 @@ package com.jerryio.publicbin.objects;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,11 +23,13 @@ public abstract class Bin {
     protected Inventory inventory;
     protected ArrayList<BinItem> binItemList;
     protected ItemStack[] itemPosList;
+    protected BukkitTask scheduledUpdateTask;
+    protected BukkitTask scheduledDespawnTask;
     
     private OrderEnum[] cacheRemoveOrderList;
     private OrderEnum[] cacheSmartGrouping;
-    private BukkitTask scheduledTask;
-    
+    private long requestCheckTime;
+
     public Bin(Inventory inventory) {
         inventory.clear();
         this.inventory = inventory;
@@ -52,23 +55,28 @@ public abstract class Bin {
     }
     
     public void requestUpdate() {        
-        if (scheduledTask == null || scheduledTask.isCancelled())
-            scheduledTask = Bukkit.getScheduler().runTask(PublicBinPlugin.getInstance(), () -> update());
+        if (scheduledUpdateTask == null || scheduledUpdateTask.isCancelled())
+            scheduledUpdateTask = Bukkit.getScheduler().runTask(PublicBinPlugin.getInstance(), () -> interactUpdate());
     }
     
-    protected void update() {
-        scheduledTask = null;
+    protected void interactUpdate() {
+        scheduledUpdateTask = null;
         
         boolean changed = doUpdateBinItemList();
 
         if (changed) {            
-            doRemoveWhenFull();
-            
-            doSmartGrouping();
-            
-            doUpdateUI();
+            forceUpdate();
         }
+    }
+    
+    protected void forceUpdate() {
+        doRemoveWhenFull();
         
+        doSmartGrouping();
+        
+        doUpdateUI();
+        
+        doScheduledDespawnTask();
     }
     
     private BinItem getBySlotIdx(int slot) {
@@ -81,6 +89,22 @@ public abstract class Bin {
                 return target;
         }
         return null;
+    }
+    
+    private void doCountdownDespawnCheck() {
+        scheduledDespawnTask = null;
+        
+        long now = new Date().getTime();
+        int keepingTime = PublicBinPlugin.getPluginSetting().getKeepingTime() * 1000;
+        
+        Iterator<BinItem> it = binItemList.iterator();
+        while (it.hasNext()) {
+            BinItem item = it.next();
+            if (now >= item.placedTime + keepingTime)
+                it.remove();
+        }
+        
+        forceUpdate();
     }
     
     private boolean doUpdateBinItemList() {
@@ -124,7 +148,7 @@ public abstract class Bin {
         
         PluginLog.logDebug(Level.INFO, "Inventory used " + binItemList.size() + " & " + setting.getFullThreshold() + " & max = " + inv.getSize());
         
-        // Selection sort algorithms
+        // Like, Selection sort algorithms
         
         while (binItemList.size() + setting.getFullThreshold() > inv.getSize()) {
             BinItem minScoreItem = null;
@@ -135,10 +159,10 @@ public abstract class Bin {
                 }
             }
 
-            if (minScoreItem == null) break;
+            if (minScoreItem == null) break; // No items can be removed, but still cannot meet the requirements
             
             binItemList.remove(minScoreItem);
-            PluginLog.logDebug(Level.INFO, "Remove 1 item on slot " + minScoreItem.slot + " & now real count = " + binItemList.size());
+            PluginLog.logDebug(Level.INFO, "Remove 1 item on slot " + minScoreItem.slot + " & count = " + binItemList.size());
         }
         
     }
@@ -153,6 +177,8 @@ public abstract class Bin {
     }
     
     private void doGrouping() {
+        long now = new Date().getTime();
+
         for (int i = 0; i < binItemList.size(); i++) {
             BinItem mother = binItemList.get(i);
             int motherAmount = mother.item.getAmount();
@@ -169,11 +195,16 @@ public abstract class Bin {
                 if (motherAmount + targetAmount > max) {
                     mother.item.setAmount(max);
                     target.item.setAmount(motherAmount + targetAmount - max);
+                    
+                    mother.placedTime = now;
+                    target.placedTime = now;
                     break; // mother full, break;
                 } else {
                     motherAmount += targetAmount;
                     mother.item.setAmount(motherAmount);
                     it.remove(); 
+                    
+                    mother.placedTime = now;
 
                     if (motherAmount >= max) break; // mother full, break;
                 }
@@ -197,14 +228,29 @@ public abstract class Bin {
     }
     
     private void doUpdateUI() {
+        PluginSetting setting = PublicBinPlugin.getPluginSetting();
         Inventory inv = getInventory();
         ItemStack[] content = new ItemStack[inv.getSize()];
         
+        requestCheckTime = Long.MAX_VALUE;
+        int keepingTime = setting.getKeepingTime() * 1000; // in seconds
+        
         for (BinItem target : binItemList) {
             content[target.slot] = target.item;
+            requestCheckTime = Math.min(requestCheckTime, target.placedTime + keepingTime);
         }
-                
+
         inv.setContents(content);
         itemPosList = content;
+    }
+    
+    private void doScheduledDespawnTask() {
+        PluginSetting setting = PublicBinPlugin.getPluginSetting();
+        if (!setting.isAutoDespawnEnabled()) return;
+        if (scheduledDespawnTask != null) scheduledDespawnTask.cancel();
+        
+        // covert to seconds, 1 second == 20 ticks, add 1 tick
+        long delay = (long)((requestCheckTime - new Date().getTime()) / 1000.0 * 20 + 1);
+        scheduledDespawnTask = Bukkit.getScheduler().runTaskLater(PublicBinPlugin.getInstance(), () -> doCountdownDespawnCheck(), delay);
     }
 }
