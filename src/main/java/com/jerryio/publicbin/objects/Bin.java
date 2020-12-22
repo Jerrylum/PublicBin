@@ -24,11 +24,10 @@ public abstract class Bin {
     protected ArrayList<BinItem> binItemList;
     protected ItemStack[] itemPosList;
     protected BukkitTask scheduledUpdateTask;
-    protected BukkitTask scheduledDespawnTask;
     
     private OrderEnum[] cacheRemoveOrderList;
     private OrderEnum[] cacheSmartGrouping;
-    private long requestCheckTime;
+    protected long requestCheckTime;
 
     public Bin(Inventory inventory) {
         inventory.clear();
@@ -69,14 +68,18 @@ public abstract class Bin {
         }
     }
     
+    protected void timeUpdate(long now, int keepingTime) {       
+        doCountdownDespawnCheck(now, keepingTime);
+        
+        forceUpdate();
+    }
+    
     protected void forceUpdate() {
         doRemoveWhenFull();
         
         doSmartGrouping();
         
         doUpdateUI();
-        
-        doScheduledDespawnTask();
     }
     
     private BinItem getBySlotIdx(int slot) {
@@ -91,12 +94,7 @@ public abstract class Bin {
         return null;
     }
     
-    private void doCountdownDespawnCheck() {
-        scheduledDespawnTask = null;
-        
-        long now = new Date().getTime();
-        int keepingTime = PublicBinPlugin.getPluginSetting().getKeepingTime() * 1000;
-        
+    private void doCountdownDespawnCheck(long now, int keepingTime) {        
         Iterator<BinItem> it = binItemList.iterator();
         while (it.hasNext()) {
             BinItem item = it.next();
@@ -242,15 +240,5 @@ public abstract class Bin {
 
         inv.setContents(content);
         itemPosList = content;
-    }
-    
-    private void doScheduledDespawnTask() {
-        PluginSetting setting = PublicBinPlugin.getPluginSetting();
-        if (!setting.isAutoDespawnEnabled()) return;
-        if (scheduledDespawnTask != null) scheduledDespawnTask.cancel();
-        
-        // covert to seconds, 1 second == 20 ticks, add 1 tick
-        long delay = (long)((requestCheckTime - new Date().getTime()) / 1000.0 * 20 + 1);
-        scheduledDespawnTask = Bukkit.getScheduler().runTaskLater(PublicBinPlugin.getInstance(), () -> doCountdownDespawnCheck(), delay);
     }
 }
