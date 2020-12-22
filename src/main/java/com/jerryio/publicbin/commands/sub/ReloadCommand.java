@@ -8,7 +8,9 @@ import org.bukkit.command.CommandSender;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinSubCommand;
+import com.jerryio.publicbin.commands.Colors;
 import com.jerryio.publicbin.commands.Strings;
+import com.jerryio.publicbin.disk.PluginSetting;
 
 public class ReloadCommand extends BinSubCommand {
     public ReloadCommand() {
@@ -27,9 +29,9 @@ public class ReloadCommand extends BinSubCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, String label, String[] args) throws CommandException {
-        sender.sendMessage("Reload!!");
-        // TODO
+    public void execute(CommandSender sender, String label, String[] args) throws CommandException {       
+        PublicBinPlugin.getInstance().onReload();
+        sender.sendMessage(Colors.PRIMARY + "Reloaded.");
     }
 
     @Override

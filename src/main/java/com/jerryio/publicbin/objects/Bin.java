@@ -41,6 +41,17 @@ public abstract class Bin {
         doUpdateUI();
     }
     
+    public void close() {
+        inventory.clear();
+        
+        // avoid ConcurrentModificationException
+        while (getViewers().size() != 0)
+            getViewers().get(0).closeInventory();
+
+        if (scheduledUpdateTask != null)
+            Bukkit.getScheduler().cancelTask(scheduledUpdateTask.getTaskId());
+    }
+    
     public Inventory getInventory() {
         return inventory;
     }
@@ -57,7 +68,7 @@ public abstract class Bin {
         if (scheduledUpdateTask == null || scheduledUpdateTask.isCancelled())
             scheduledUpdateTask = Bukkit.getScheduler().runTask(PublicBinPlugin.getInstance(), () -> interactUpdate());
     }
-    
+
     protected void interactUpdate() {
         scheduledUpdateTask = null;
         
@@ -67,13 +78,13 @@ public abstract class Bin {
             forceUpdate();
         }
     }
-    
+
     protected void timeUpdate(long now, int keepingTime) {       
         doCountdownDespawnCheck(now, keepingTime);
         
         forceUpdate();
     }
-    
+
     protected void forceUpdate() {
         doRemoveWhenFull();
         
@@ -81,7 +92,7 @@ public abstract class Bin {
         
         doUpdateUI();
     }
-    
+
     private BinItem getBySlotIdx(int slot) {
         for (BinItem target : binItemList) {
             if (target == null) {
@@ -93,7 +104,7 @@ public abstract class Bin {
         }
         return null;
     }
-    
+
     private void doCountdownDespawnCheck(long now, int keepingTime) {        
         Iterator<BinItem> it = binItemList.iterator();
         while (it.hasNext()) {
@@ -104,7 +115,7 @@ public abstract class Bin {
         
         forceUpdate();
     }
-    
+
     private boolean doUpdateBinItemList() {
         boolean changed = false;
         ItemStack[] content = getInventory().getContents();
@@ -209,7 +220,7 @@ public abstract class Bin {
             }
         }
     }
-    
+
     private void doSlotReorder() {
         final Comparator<BinItem> compare = new Comparator<BinItem>() {
             @Override

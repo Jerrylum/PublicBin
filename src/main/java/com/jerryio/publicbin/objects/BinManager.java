@@ -27,6 +27,15 @@ public abstract class BinManager {
             scheduledTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> doCountdownDespawnCheck(), minWaitTime, 20);
     }
     
+    public void close() {
+        for(Bin bin : getAllBin()) {
+            bin.close();
+        }
+        
+        if (scheduledTask != null)
+            Bukkit.getScheduler().cancelTask(scheduledTask.getTaskId());
+    }
+    
     private void doCountdownDespawnCheck() {
         long now = new Date().getTime();
         

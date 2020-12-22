@@ -51,7 +51,22 @@ public class PublicBinPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        binManager.close();
+    }
+    
+    public void onReload() {
+        binManager.close();
+        
+        // reload config
+        setting = PluginSetting.load(this);
+        
+        // initial bin manager
+        binManager = setting.getMode() == ModeEnum.ShareMode ? new PublicBinManager() : new PrivateBinManager();
 
+        // set console debug mode by config value
+        PluginLog.setDebugEnabled(setting.isDebug());
+
+        doPrintDebugMsg();
     }
 
     public static PublicBinPlugin getInstance() {
