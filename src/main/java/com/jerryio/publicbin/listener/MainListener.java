@@ -28,37 +28,39 @@ public class MainListener implements Listener {
 
     // We process the click event when the player is allowed to.
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onInventoryClickEvent​(InventoryClickEvent event) {       
+    public void onInventoryClickEvent​(InventoryClickEvent event) {
         Bin usingBin = getInteractBin(event);
-        if (usingBin == null) return;
+        if (usingBin == null)
+            return;
 
         usingBin.requestUpdate();
     }
-    
+
     // We process the click event when the player is allowed to.
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void onInventoryDragEvent​(InventoryDragEvent event) {       
+    public void onInventoryDragEvent​(InventoryDragEvent event) {
         Bin usingBin = getInteractBin(event);
-        if (usingBin == null) return;
+        if (usingBin == null)
+            return;
 
         usingBin.requestUpdate();
     }
-    
+
     @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
-    public void OnPlayerJoinEvent(PlayerJoinEvent event){
+    public void OnPlayerJoinEvent(PlayerJoinEvent event) {
         PublicBinPlugin.getBinManager().onPlayerJoin(event.getPlayer());
     }
-    
+
     @EventHandler(priority = EventPriority.NORMAL)
-    public void OnPlayerJoinEvent(PlayerQuitEvent event){
+    public void OnPlayerQuitEvent(PlayerQuitEvent event) {
         PublicBinPlugin.getBinManager().onPlayerQuit(event.getPlayer());
     }
-    
+
     private Bin getInteractBin(InventoryInteractEvent event) {
         Inventory topInventory = event.getInventory();
-        Player p = (Player)event.getWhoClicked();
+        Player p = (Player) event.getWhoClicked();
         Bin usableBin = PublicBinPlugin.getBinManager().getUsableBin(p);
-        
+
         // Determine whether the user is using a trash bin (that they can use)
         if (usableBin.getInventory().equals(topInventory)) {
             return usableBin;

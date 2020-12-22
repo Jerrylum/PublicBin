@@ -12,57 +12,57 @@ import com.jerryio.publicbin.disk.PluginSetting;
 import com.jerryio.publicbin.enums.ModeEnum;
 
 public abstract class BinManager {
-    
+
     private BukkitTask scheduledTask;
     private int cacheKeepingTime;
 
     public static BinManager load(PublicBinPlugin plugin) {
         BinManager rtn = plugin.setting.getMode() == ModeEnum.ShareMode ? new PublicBinManager() : new PrivateBinManager();
-        
+
         for (Player p : Bukkit.getServer().getOnlinePlayers())
             rtn.onPlayerJoin(p);
-        
+
         return rtn;
     }
-    
+
     public BinManager() {
         PublicBinPlugin plugin = PublicBinPlugin.getInstance();
         PluginSetting setting = PublicBinPlugin.getPluginSetting();
-        
+
         cacheKeepingTime = setting.getKeepingTime() * 1000;
         int minWaitTime = cacheKeepingTime / 1000 * 20;
-        
+
         if (setting.isAutoDespawnEnabled())
             scheduledTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> doCountdownDespawnCheck(), minWaitTime, 20);
-        
-        
+
     }
-    
+
     public void close() {
-        for(Bin bin : getAllBin()) {
+        for (Bin bin : getAllBin()) {
             bin.close();
         }
-        
+
         if (scheduledTask != null)
             Bukkit.getScheduler().cancelTask(scheduledTask.getTaskId());
     }
-    
+
     private void doCountdownDespawnCheck() {
         long now = new Date().getTime();
-        
+
         for (Bin bin : getAllBin()) {
-            if (now < bin.requestCheckTime) continue;
-            
+            if (now < bin.requestCheckTime)
+                continue;
+
             bin.timeUpdate(now, cacheKeepingTime);
         }
     }
-    
+
     public abstract Bin getUsableBin(Player p);
-    
+
     public abstract Collection<Bin> getAllBin();
-    
+
     public abstract void onPlayerJoin(Player p);
-    
+
     public abstract void onPlayerQuit(Player p);
 
 }

@@ -10,7 +10,7 @@ public class CommandValidator {
             throw new CommandException(string);
         }
     }
-    
+
     public static void isTrue(boolean b, String string) throws CommandException {
         if (!b) {
             throw new CommandException(string);
@@ -24,7 +24,7 @@ public class CommandValidator {
             throw new CommandException("Invalid number: '" + integer + "'.");
         }
     }
-    
+
     public static boolean isInteger(String integer) {
         try {
             Integer.parseInt(integer);
@@ -33,7 +33,7 @@ public class CommandValidator {
             return false;
         }
     }
-    
+
     public static Player getPlayerSender(CommandSender sender) throws CommandException {
         if (sender instanceof Player) {
             return (Player) sender;
@@ -41,7 +41,7 @@ public class CommandValidator {
             throw new CommandException("You must be a player to use this command.");
         }
     }
-    
+
     public static boolean isPlayerSender(CommandSender sender) {
         return sender instanceof Player;
     }

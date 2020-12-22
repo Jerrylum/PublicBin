@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public class PublicBinManager extends BinManager {
 
     private PublicBin bin;
-    
+
     public PublicBinManager() {
         bin = new PublicBin();
     }
@@ -25,11 +25,11 @@ public class PublicBinManager extends BinManager {
         rtn.add(bin);
         return rtn;
     }
-    
+
     public void onPlayerJoin(Player p) {
         // Nothing to do
     }
-    
+
     public void onPlayerQuit(Player p) {
         // Nothing to do
     }

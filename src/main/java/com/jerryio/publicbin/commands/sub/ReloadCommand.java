@@ -10,7 +10,6 @@ import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinSubCommand;
 import com.jerryio.publicbin.commands.Colors;
 import com.jerryio.publicbin.commands.Strings;
-import com.jerryio.publicbin.disk.PluginSetting;
 
 public class ReloadCommand extends BinSubCommand {
     public ReloadCommand() {

@@ -17,11 +17,12 @@ public class BinItem {
         this.placedTime = new Date().getTime();
         this.slot = slot;
     }
-    
+
     public int compareTo(BinItem target, OrderEnum[] guideline) {
         for (int i = 0; i < guideline.length; i++) {
             int score = guideline[i].getComparision().run(this, target);
-            if (score != 0) return score;            
+            if (score != 0)
+                return score;
         }
         return 0;
     }

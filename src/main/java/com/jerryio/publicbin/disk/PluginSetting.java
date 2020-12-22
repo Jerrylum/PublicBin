@@ -105,7 +105,7 @@ public class PluginSetting {
             }
             
         }
-        
+
         return rtn.toArray(new OrderEnum[rtn.size()]);
     }
 

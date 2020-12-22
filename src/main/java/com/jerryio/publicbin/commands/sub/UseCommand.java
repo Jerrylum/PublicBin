@@ -9,10 +9,8 @@ import org.bukkit.entity.Player;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinSubCommand;
-import com.jerryio.publicbin.commands.Colors;
 import com.jerryio.publicbin.commands.CommandValidator;
 import com.jerryio.publicbin.commands.Strings;
-import com.jerryio.publicbin.enums.ModeEnum;
 
 public class UseCommand extends BinSubCommand {
     public UseCommand() {
@@ -35,7 +33,7 @@ public class UseCommand extends BinSubCommand {
         if (!CommandValidator.isPlayerSender(sender)) {
             throw new CommandException("Only in-game players can use this command.");
         }
-    
+
         Player p = (Player) sender;
         p.openInventory(PublicBinPlugin.getBinManager().getUsableBin(p).getInventory());
     }

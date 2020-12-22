@@ -3,28 +3,22 @@ package com.jerryio.publicbin;
 import java.util.Arrays;
 import java.util.logging.Level;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.disk.PluginSetting;
-import com.jerryio.publicbin.enums.ModeEnum;
 import com.jerryio.publicbin.listener.MainListener;
 import com.jerryio.publicbin.objects.BinManager;
-import com.jerryio.publicbin.objects.PrivateBinManager;
-import com.jerryio.publicbin.objects.PublicBinManager;
 import com.jerryio.publicbin.util.PluginLog;
-
 
 public class PublicBinPlugin extends JavaPlugin {
     // Singleton pattern, The main instance of the plugin.
     private static PublicBinPlugin instance;
 
     public PluginSetting setting;
-    
+
     public BinCommandHandler commandHandler;
-    
+
     public BinManager binManager;
 
     @Override
@@ -35,13 +29,13 @@ public class PublicBinPlugin extends JavaPlugin {
 
         // initial config
         setting = PluginSetting.load(this);
-        
+
         // initial command handler
         commandHandler = BinCommandHandler.load(this);
-        
+
         // initial bin manager
         binManager = BinManager.load(this);
-        
+
         // initial event listener
         MainListener.load(this);
 
@@ -54,21 +48,21 @@ public class PublicBinPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         binManager.close();
-        
+
         PluginLog.log(Level.INFO, "Disabled.");
     }
-    
+
     public void onReload() {
         binManager.close();
-        
+
         // reload config
         setting = PluginSetting.load(this);
-        
+
         // initial bin manager
         binManager = BinManager.load(this);
 
         // set console debug mode by config value
-        PluginLog.setDebugEnabled(setting.isDebug());        
+        PluginLog.setDebugEnabled(setting.isDebug());
 
         doPrintDebugMsg();
     }
@@ -76,15 +70,15 @@ public class PublicBinPlugin extends JavaPlugin {
     public static PublicBinPlugin getInstance() {
         return instance;
     }
-    
+
     public static PluginSetting getPluginSetting() {
         return instance.setting;
     }
-    
+
     public static BinCommandHandler getCommandHandler() {
         return instance.commandHandler;
     }
-    
+
     public static BinManager getBinManager() {
         return instance.binManager;
     }
