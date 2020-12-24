@@ -1,6 +1,7 @@
 main: com.jerryio.publicbin.PublicBinPlugin
 name: PublicBin
 version: ${project.version}
+api-version: ${spigot.api}
 description: PublicBin provides a place to discard unwanted items and retrieve items discarded by other players.
 author: JerryLum
 website: jerryio.com

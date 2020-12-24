@@ -15,8 +15,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spigot.version>1.13.2</spigot.version>
-		<spigot.javadocs>https://helpch.at/docs/${spigot.version}/</spigot.javadocs>
+		<spigot.api>1.15</spigot.api>
+		<spigot.javadocs>https://helpch.at/docs/${spigot.version}.1/</spigot.javadocs>
 	</properties>
 
 	<issueManagement>
@@ -48,7 +48,7 @@
 		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
 		<defaultGoal>clean package</defaultGoal>
 
-		<finalName>${project.name} v${project.version}</finalName>
+		<finalName>${project.name} v${project.version} mc${spigot.api}</finalName>
 
 		<plugins>
 			<plugin>
@@ -77,7 +77,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>${spigot.version}-R0.1-SNAPSHOT</version>
+			<version>${spigot.api}.1-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
