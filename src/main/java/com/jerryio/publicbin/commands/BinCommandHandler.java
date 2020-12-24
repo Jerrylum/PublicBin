@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandException;
@@ -15,7 +14,6 @@ import org.bukkit.command.CommandSender;
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.sub.*;
 import com.jerryio.publicbin.util.I18n;
-import com.jerryio.publicbin.util.PluginLog;
 
 public class BinCommandHandler implements CommandExecutor {
 

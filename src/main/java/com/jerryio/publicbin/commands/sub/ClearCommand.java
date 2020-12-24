@@ -48,6 +48,11 @@ public class ClearCommand extends BinSubCommand {
             I18n.sendMessage(sender, "command-clear-public-bin");
         } else {
             if (args.length > 0) {
+                if (!sender.hasPermission(super.getPermission() + "others")) {
+                    I18n.sendMessage(sender, "command-no-permission");
+                    return;
+                }
+                
                 Player target = Bukkit.getServer().getPlayer(args[0]);
                 if (target == null) {                    
                     I18n.sendMessage(sender, "command-target-404");

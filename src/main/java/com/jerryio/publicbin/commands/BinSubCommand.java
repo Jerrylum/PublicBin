@@ -32,9 +32,9 @@ public abstract class BinSubCommand {
     }
 
     public final boolean hasPermission(CommandSender sender) {
-        if (permission == null)
+        if (getPermission() == null)
             return true;
-        return sender.hasPermission(permission);
+        return sender.hasPermission(getPermission());
     }
 
     public abstract String getPossibleArguments();
