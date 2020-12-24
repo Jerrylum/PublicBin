@@ -1,6 +1,7 @@
 package com.jerryio.publicbin.objects;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
@@ -59,7 +60,7 @@ public abstract class Bin {
     }
 
     public List<HumanEntity> getViewers() {
-        return getInventory().getViewers();
+        return System.getProperty("MockTest") == null ? getInventory().getViewers() : Arrays.asList();
     }
 
     public boolean hasViewer() {

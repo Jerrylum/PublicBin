@@ -45,6 +45,10 @@
 		  <id>CodeMC</id>
 		  <url>https://repo.codemc.org/repository/maven-public</url>
 		</repository>
+		<repository>
+		  <id>jitpack.io</id>
+		  <url>https://jitpack.io</url>
+		</repository>
 	</repositories>
 
 	<build>
@@ -125,5 +129,11 @@
 			  <version>1.8</version>
 			  <scope>compile</scope>
 		</dependency>
+	  	<dependency>
+			<groupId>com.github.seeseemelk</groupId>
+			<artifactId>MockBukkit-v1.16</artifactId>
+			<version>0.5.0</version>
+			<scope>test</scope>
+	  	</dependency>
 	</dependencies>
 </project>

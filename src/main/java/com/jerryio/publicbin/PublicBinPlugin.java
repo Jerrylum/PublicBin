@@ -1,10 +1,13 @@
 package com.jerryio.publicbin;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.logging.Level;
 
 import org.bstats.bukkit.Metrics;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
 import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.disk.PluginSetting;
@@ -22,6 +25,14 @@ public class PublicBinPlugin extends JavaPlugin {
     public BinCommandHandler commandHandler;
 
     public BinManager binManager;
+    
+    public PublicBinPlugin() {
+        super();
+    }
+
+    protected PublicBinPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, dataFolder, file);
+    }
 
     @Override
     public void onEnable() {
@@ -60,10 +71,16 @@ public class PublicBinPlugin extends JavaPlugin {
     }
 
     public void onReload() {
+        onReload(true);
+    }
+    
+    public void onReload(boolean reloadConfig) {
         binManager.close();
 
-        // reload config
-        setting = PluginSetting.load(this);
+        if (reloadConfig) {
+            // reload config
+            setting = PluginSetting.load(this);
+        }
 
         // initial language setting
         I18n.load(setting.getLang());
@@ -76,6 +93,7 @@ public class PublicBinPlugin extends JavaPlugin {
 
         doPrintDebugMsg();
     }
+
 
     public static PublicBinPlugin getInstance() {
         return instance;
@@ -122,8 +140,10 @@ public class PublicBinPlugin extends JavaPlugin {
     }
     
     private void doMetricsSend() {
-        Metrics metrics = new Metrics(this, 9744);
-        metrics.addCustomChart(new Metrics.SimplePie("using_mode", () ->  setting.getMode().toString()));
+        if (System.getProperty("MockTest") == null) {            
+            Metrics metrics = new Metrics(this, 9744);
+            metrics.addCustomChart(new Metrics.SimplePie("using_mode", () ->  setting.getMode().toString()));
+        }
     }
 
 }

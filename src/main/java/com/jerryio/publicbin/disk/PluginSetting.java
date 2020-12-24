@@ -54,6 +54,11 @@ public class PluginSetting {
         this.config = config;
     }
     
+    @Deprecated
+    public YamlConfiguration getConfig() {
+        return config;
+    }
+    
     public String getLang() {
         return config.getString("lang", "en_US"); 
     }
