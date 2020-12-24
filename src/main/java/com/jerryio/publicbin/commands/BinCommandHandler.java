@@ -70,19 +70,26 @@ public class BinCommandHandler implements CommandExecutor {
                     return true;
                 }
 
-                if (args.length - 1 >= subCommand.getMinimumArguments()) {
-                    target = subCommand;
-                } else {
-                    I18n.sendMessage(sender, "command-usage-suggestion", label, subCommand.getName(),
-                            subCommand.getPossibleArguments());
-                    return true;
-                }
+                target = subCommand;
+                break;
             }
         }
 
         if (target == null) {
             I18n.sendMessage(sender, "command-unknown", label);
         } else {
+            
+            if (!target.hasPermission(sender)) {
+                I18n.sendMessage(sender, "command-no-permission");
+                return true;
+            }
+
+            if (args.length - 1 < target.getMinimumArguments()) {
+                I18n.sendMessage(sender, "command-usage-suggestion", label, target.getName(),
+                        target.getPossibleArguments());
+                return true;
+            }
+            
             try {
                 target.execute(sender, label, Arrays.copyOfRange(args, 1, args.length));
             } catch (CommandException e) {

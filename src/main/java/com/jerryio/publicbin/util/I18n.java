@@ -30,9 +30,9 @@ public class I18n {
         }
     }
 
-    private static String p(String locate, String str, Object[] obj) {
+    private static String p(String locale, String str, Object[] obj) {
         try {
-            String format = langMap.getOrDefault(locate.toLowerCase(), defaultLang).getString(str);
+            String format = langMap.getOrDefault(locale.toLowerCase(), defaultLang).getString(str);
 
             MessageFormat messageFormat;
 
