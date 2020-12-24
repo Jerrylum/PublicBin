@@ -3,6 +3,7 @@ package com.jerryio.publicbin.objects;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
@@ -30,8 +32,8 @@ public abstract class Bin {
     protected long requestCheckTime;
 
     public Bin(Inventory inventory) {
-        inventory.clear();
         this.inventory = inventory;
+        getInventory().clear();
         clear();
     }
 
@@ -42,7 +44,7 @@ public abstract class Bin {
     }
 
     public void close() {
-        inventory.clear();
+        getInventory().clear();
 
         // avoid ConcurrentModificationException
         while (getViewers().size() != 0)
@@ -69,7 +71,7 @@ public abstract class Bin {
             scheduledUpdateTask = Bukkit.getScheduler().runTask(PublicBinPlugin.getInstance(), () -> interactUpdate());
     }
 
-    protected void interactUpdate() {
+    private void interactUpdate() {
         scheduledUpdateTask = null;
 
         boolean changed = doUpdateBinItemList();
@@ -79,18 +81,20 @@ public abstract class Bin {
         }
     }
 
-    protected void timeUpdate(long now, int keepingTime) {
+    public void timeUpdate(long now, int keepingTime) {
         doCountdownDespawnCheck(now, keepingTime);
 
         forceUpdate();
     }
 
-    protected void forceUpdate() {
+    private void forceUpdate() {
         doRemoveWhenFull();
 
         doSmartGrouping();
 
         doUpdateUI();
+        
+        doUpdateInventoryViewer();
     }
 
     private BinItem getBySlotIdx(int slot) {
@@ -112,8 +116,6 @@ public abstract class Bin {
             if (now >= item.placedTime + keepingTime)
                 it.remove();
         }
-
-        forceUpdate();
     }
 
     private boolean doUpdateBinItemList() {
@@ -259,5 +261,16 @@ public abstract class Bin {
 
         inv.setContents(content);
         itemPosList = content;
+    }
+    
+    private void doUpdateInventoryViewer() {
+        Iterator<HumanEntity> it = getInventory().getViewers().iterator();
+        
+        try {
+            while (it.hasNext())
+                ((Player)it.next()).updateInventory();
+        } catch (ConcurrentModificationException e) {
+            PluginLog.logDebug(Level.INFO, "Iterator error while tring to update inventory viewer");
+        }
     }
 }
