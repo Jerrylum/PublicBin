@@ -3,6 +3,7 @@ package com.jerryio.publicbin;
 import java.util.Arrays;
 import java.util.logging.Level;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.jerryio.publicbin.commands.BinCommandHandler;
@@ -47,6 +48,8 @@ public class PublicBinPlugin extends JavaPlugin {
         PluginLog.setDebugEnabled(setting.isDebug());
 
         doPrintDebugMsg();
+        
+        doMetricsSend();
     }
 
     @Override
@@ -116,6 +119,11 @@ public class PublicBinPlugin extends JavaPlugin {
             PluginLog.logDebug(Level.INFO, "Smart grouping = " + setting.isSmartGroupingEnabled() + " & order = "
                     + Arrays.toString(setting.getSmartGroupingOrderList()));
         }
+    }
+    
+    private void doMetricsSend() {
+        Metrics metrics = new Metrics(this, 9744);
+        metrics.addCustomChart(new Metrics.SimplePie("using_mode", () ->  setting.getMode().toString()));
     }
 
 }
