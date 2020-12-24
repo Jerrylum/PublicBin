@@ -12,7 +12,10 @@ public class PrivateBinManager extends BinManager {
 
     @Override
     public Bin getUsableBin(Player p) {
-        return storage.getOrDefault(p.getUniqueId(), null);
+        if (storage.containsKey(p.getUniqueId()))
+            return storage.get(p.getUniqueId());
+        else
+            return createNewBin(p);
     }
 
     @Override
@@ -21,11 +24,18 @@ public class PrivateBinManager extends BinManager {
     }
 
     public void onPlayerJoin(Player p) {
-        storage.put(p.getUniqueId(), new PrivateBin(p));
+        // Nothing to do
     }
 
     public void onPlayerQuit(Player p) {
         storage.remove(p.getUniqueId());
+    }
+    
+    private Bin createNewBin(Player p) {
+        Bin rtn = new PrivateBin(p);
+        storage.put(p.getUniqueId(), rtn);
+        
+        return rtn;
     }
 
 }

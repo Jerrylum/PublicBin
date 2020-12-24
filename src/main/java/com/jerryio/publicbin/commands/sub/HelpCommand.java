@@ -42,7 +42,7 @@ public class HelpCommand extends BinSubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) throws CommandException {
         sender.sendMessage("");
-        sender.sendMessage(Strings.formatTitle("PublicBin Commands"));
+        sender.sendMessage(Strings.formatTitle(I18n.n(sender, "command-help-title")));
         for (BinSubCommand subCommand : PublicBinPlugin.getCommandHandler().getSubCommands()) {
             String usage = "/" + label + " " + subCommand.getName() + (subCommand.getPossibleArguments().length() > 0 ? " " + subCommand.getPossibleArguments() : "");
             
