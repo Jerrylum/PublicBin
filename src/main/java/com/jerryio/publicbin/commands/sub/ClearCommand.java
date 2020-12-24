@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinSubCommand;
-import com.jerryio.publicbin.commands.Colors;
 import com.jerryio.publicbin.commands.CommandValidator;
 import com.jerryio.publicbin.commands.Strings;
 import com.jerryio.publicbin.enums.ModeEnum;
@@ -70,11 +69,11 @@ public class ClearCommand extends BinSubCommand {
     }
 
     @Override
-    public List<String> getTutorial() {
+    public List<String> getTutorial(CommandSender sender) {
         if (isShareMode())
-            return Arrays.asList(I18n.t("command-clear-tutorial-public"));
+            return Arrays.asList(I18n.n(sender, "command-clear-tutorial-public"));
         else
-            return Arrays.asList(I18n.t("command-clear-tutorial-private").split("\n"));
+            return Arrays.asList(I18n.n(sender, "command-clear-tutorial-private").split("\n"));
     }
     
     private static boolean isShareMode() {

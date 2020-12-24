@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinSubCommand;
-import com.jerryio.publicbin.commands.Colors;
 import com.jerryio.publicbin.commands.Strings;
 import com.jerryio.publicbin.util.I18n;
 
@@ -35,7 +34,7 @@ public class ReloadCommand extends BinSubCommand {
     }
 
     @Override
-    public List<String> getTutorial() {
-        return Arrays.asList(I18n.t("command-reload-tutorial"));
+    public List<String> getTutorial(CommandSender sender) {
+        return Arrays.asList(I18n.n(sender, "command-reload-tutorial"));
     }
 }

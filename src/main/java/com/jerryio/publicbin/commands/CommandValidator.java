@@ -40,7 +40,7 @@ public class CommandValidator {
         if (sender instanceof Player) {
             return (Player) sender;
         } else {
-            throw new CommandException(I18n.t("command-not-player"));
+            throw new CommandException(I18n.n(sender, "command-not-player"));
         }
     }
 

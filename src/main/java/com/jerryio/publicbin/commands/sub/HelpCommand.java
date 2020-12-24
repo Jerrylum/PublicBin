@@ -50,7 +50,7 @@ public class HelpCommand extends BinSubCommand {
                 
                 List<String> help = new ArrayList<>();
                 help.add(Colors.PRIMARY + usage);
-                for (String tutLine : subCommand.getTutorial()) {
+                for (String tutLine : subCommand.getTutorial(sender)) {
                     help.add(Colors.SECONDARY_SHADOW + tutLine);
                 }
                 
@@ -70,22 +70,22 @@ public class HelpCommand extends BinSubCommand {
         }
     }
     
-    private static void sendHoverTip(Player player) {
-        player.sendMessage("");
-        player.spigot().sendMessage(new ComponentBuilder(I18n.t("command-help-tips")).color(ChatColor.YELLOW).bold(true)
-            .append(I18n.t("command-help-try"), FormatRetention.NONE).color(ChatColor.GRAY)
-            .append(I18n.t("command-help-hover")).color(ChatColor.WHITE).underlined(true)
-            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.LIGHT_PURPLE + I18n.t("command-help-hover-show"))))
-            .append(I18n.t("command-help-or"), FormatRetention.NONE).color(ChatColor.GRAY)
-            .append(I18n.t("command-help-click")).color(ChatColor.WHITE).underlined(true)
-            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.LIGHT_PURPLE + I18n.t("command-help-click-show"))))
-            .append(I18n.t("command-help-on-it"), FormatRetention.NONE).color(ChatColor.GRAY)
+    private static void sendHoverTip(Player p) {
+        p.sendMessage("");
+        p.spigot().sendMessage(new ComponentBuilder(I18n.n(p, "command-help-tips")).color(ChatColor.YELLOW).bold(true)
+            .append(I18n.n(p, "command-help-try"), FormatRetention.NONE).color(ChatColor.GRAY)
+            .append(I18n.n(p, "command-help-hover")).color(ChatColor.WHITE).underlined(true)
+            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.LIGHT_PURPLE + I18n.n(p, "command-help-hover-show"))))
+            .append(I18n.n(p, "command-help-or"), FormatRetention.NONE).color(ChatColor.GRAY)
+            .append(I18n.n(p, "command-help-click")).color(ChatColor.WHITE).underlined(true)
+            .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(ChatColor.LIGHT_PURPLE + I18n.n(p, "command-help-click-show"))))
+            .append(I18n.n(p, "command-help-on-it"), FormatRetention.NONE).color(ChatColor.GRAY)
             .create());
     }
 
     @Override
-    public List<String> getTutorial() {
-        return Arrays.asList(I18n.t("command-help-tutorial"));
+    public List<String> getTutorial(CommandSender sender) {
+        return Arrays.asList(I18n.n(sender, "command-help-tutorial"));
     }
 
 }

@@ -43,7 +43,7 @@ public abstract class BinSubCommand {
 
     public abstract void execute(CommandSender sender, String label, String[] args) throws CommandException;
 
-    public abstract List<String> getTutorial();
+    public abstract List<String> getTutorial(CommandSender sender);
 
     public final boolean isValidTrigger(String name) {
         if (this.getName().equalsIgnoreCase(name)) {

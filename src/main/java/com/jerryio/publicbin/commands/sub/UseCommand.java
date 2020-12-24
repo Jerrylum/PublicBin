@@ -36,7 +36,7 @@ public class UseCommand extends BinSubCommand {
     }
 
     @Override
-    public List<String> getTutorial() {
-        return Arrays.asList(I18n.t("command-use-tutorial"));
+    public List<String> getTutorial(CommandSender sender) {
+        return Arrays.asList(I18n.n(sender, "command-use-tutorial"));
     }
 }
