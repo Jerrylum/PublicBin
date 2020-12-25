@@ -1,4 +1,4 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.mock;
 
 import java.util.UUID;
 

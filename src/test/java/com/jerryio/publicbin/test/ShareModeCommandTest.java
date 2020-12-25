@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;

@@ -10,7 +10,14 @@ public enum OrderEnum {
         Material aVal = a.item.getType();
         Material bVal = b.item.getType();
         
-        return aVal.equals(bVal) ? 0 : compare(aVal.toString(), bVal.toString()); 
+        if (aVal.equals(bVal)) {
+            return 0;
+        } else {
+            String[] aNameArray = aVal.toString().split("_");
+            String[] bNameArray = bVal.toString().split("_");
+            
+            return compare(aNameArray, bNameArray);
+        }
     }),
     Metadata((a, b) -> {
         int first = compare(a.item.hasItemMeta(), b.item.hasItemMeta());
@@ -34,6 +41,24 @@ public enum OrderEnum {
 
     public BinItemComparison getComparision() {
         return comparision;
+    }
+    
+    private static int compare(String[] aVal, String[] bVal) {
+        int maxLength = Math.max(aVal.length, bVal.length);
+        
+        for (int i = 1; i <= maxLength; i++) {
+            int aIdx = aVal.length - i;
+            int bIdx = bVal.length - i;
+            if (aIdx < 0) return -1;
+            if (bIdx < 0) return 1;
+            
+            String a = aVal[aIdx];
+            String b = bVal[bIdx];
+            int ans = compare(a, b);
+            if (ans != 0) return ans;
+        }
+        
+        return 0;
     }
 
     private static int compare(String aVal, String bVal) {
