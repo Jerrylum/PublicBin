@@ -265,7 +265,7 @@ public abstract class Bin {
     }
     
     private void doUpdateInventoryViewer() {
-        Iterator<HumanEntity> it = getInventory().getViewers().iterator();
+        Iterator<HumanEntity> it = getViewers().iterator();
         
         try {
             while (it.hasNext())
