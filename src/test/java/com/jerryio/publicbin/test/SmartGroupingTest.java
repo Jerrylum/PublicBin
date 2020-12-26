@@ -1,6 +1,11 @@
 package com.jerryio.publicbin.test;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
@@ -55,7 +60,7 @@ public class SmartGroupingTest extends AbstractInventoryTest {
     }
 
     @Test
-    public void testAddItemsToInventoryAndChanged() {
+    public void testAddItemsToInventoryAndChanged1() {
         openInventory();
         
         // start adding items        
@@ -91,5 +96,87 @@ public class SmartGroupingTest extends AbstractInventoryTest {
         assertItemStackArray(expected, inv.getContents());
         
         closeInventory();
+    }
+    
+    @Test
+    public void testAddItemsToInventoryAndChanged2() {
+        openInventory();
+        
+        // start adding items        
+        ItemStack[] expected = new ItemStack[9 * 2];
+                
+        addItem(expected[11] = new ItemStack(Material.WOODEN_AXE), 0);
+        addItem(new ItemStack(Material.APPLE, 32), 2);
+        addItem(new ItemStack(Material.APPLE, 48), 4);
+        addItem(expected[0] = new ItemStack(Material.GLASS), 6);
+        addItem(expected[2] = new ItemStack(Material.RED_BED), 8);
+        addItem(expected[4] = new ItemStack(Material.ORANGE_BED), 9);
+        addItem(expected[1] = new ItemStack(Material.YELLOW_BED), 10);
+        addItem(expected[5] = new ItemStack(Material.GREEN_BED), 11);
+        addItem(expected[7] = new ItemStack(Material.CYAN_BED), 12);
+        addItem(expected[8] = new ItemStack(Material.LIGHT_BLUE_BED), 13);
+        addItem(expected[9] = new ItemStack(Material.BLUE_BED), 14);
+        addItem(expected[3] = new ItemStack(Material.PURPLE_BED), 15);
+        addItem(expected[6] = new ItemStack(Material.GRAY_BED), 16);
+        addItem(expected[10] = new ItemStack(Material.BLACK_BED), 17);
+        
+        expected[12] = new ItemStack(Material.APPLE, 64);
+        expected[13] = new ItemStack(Material.APPLE, 16);
+
+        server.getScheduler().performTicks(1);
+        
+
+        // should be cleared two apples
+        assertItemStackArray(expected, inv.getContents());
+
+        DateTime.addMockTimestamp(setting.getKeepingTime() * 1000);
+        server.getScheduler().performTicks(setting.getKeepingTime() * 20);
+        
+        // should be the same
+        assertItemStackArray(expected, inv.getContents());
+        
+        closeInventory();
+    }
+    
+    @Test
+    public void testAddItemsToInventoryOneByOneAndChanged() {
+        openInventory();
+        
+        // start adding items        
+        ItemStack[] expected = new ItemStack[9 * 2];
+                
+        addItemAndWait(expected[11] = new ItemStack(Material.WOODEN_AXE), 0);
+        addItemAndWait(new ItemStack(Material.APPLE), 2);
+        addItemAndWait(new ItemStack(Material.APPLE), 4);
+        addItemAndWait(expected[0] = new ItemStack(Material.GLASS), 6);
+        addItemAndWait(expected[2] = new ItemStack(Material.RED_BED), 8);
+        addItemAndWait(expected[4] = new ItemStack(Material.ORANGE_BED), 9);
+        addItemAndWait(expected[1] = new ItemStack(Material.YELLOW_BED), 10);
+        addItemAndWait(expected[5] = new ItemStack(Material.GREEN_BED), 11);
+        addItemAndWait(expected[7] = new ItemStack(Material.CYAN_BED), 12);
+        addItemAndWait(expected[8] = new ItemStack(Material.LIGHT_BLUE_BED), 13);
+        addItemAndWait(expected[9] = new ItemStack(Material.BLUE_BED), 14);
+        addItemAndWait(expected[3] = new ItemStack(Material.PURPLE_BED), 15);
+        addItemAndWait(expected[6] = new ItemStack(Material.GRAY_BED), 16);
+        addItemAndWait(expected[10] = new ItemStack(Material.BLACK_BED), 17);
+        
+        expected[12] = new ItemStack(Material.APPLE, 2);
+        
+
+        // should be cleared two apples
+        assertItemStackArray(expected, inv.getContents());
+
+        DateTime.addMockTimestamp(setting.getKeepingTime() * 1000);
+        server.getScheduler().performTicks(setting.getKeepingTime() * 20);
+        
+        // should be the same
+        assertItemStackArray(expected, inv.getContents());
+        
+        closeInventory();
+    }
+    
+    protected void addItemAndWait(ItemStack item, int slot) {
+        super.addItem(item, slot);
+        server.getScheduler().performTicks(1);
     }
 }

@@ -49,15 +49,15 @@ public abstract class AbstractInventoryTest {
 
         server = MockBukkit.mock();
         plugin = (PublicBinPlugin) MockBukkit.load(PublicBinPlugin.class);
-        setting = PublicBinPlugin.getPluginSetting();
-        config = setting.getConfig();
+        config = PublicBinPlugin.getPluginSetting().getConfig();
         
         config.set("size", 2); // 2 rows
         
         configSetting();
         
         plugin.onReload(false);
-        
+
+        setting = PublicBinPlugin.getPluginSetting();
         handler = PublicBinPlugin.getCommandHandler();
         manager = PublicBinPlugin.getBinManager();
         
