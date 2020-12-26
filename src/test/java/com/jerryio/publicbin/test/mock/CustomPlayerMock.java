@@ -1,11 +1,9 @@
 package com.jerryio.publicbin.test.mock;
 
-import java.util.UUID;
-
+import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
 import be.seeseemelk.mockbukkit.ServerMock;
-import be.seeseemelk.mockbukkit.UnimplementedOperationException;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;
 
 public class CustomPlayerMock extends PlayerMock {
@@ -14,10 +12,6 @@ public class CustomPlayerMock extends PlayerMock {
     
     public CustomPlayerMock(ServerMock server, String name) {
         super(server, name);
-    }
-    
-    public CustomPlayerMock(ServerMock server, String name, UUID uuid) {
-        super(server, name, uuid);
     }
 
     @Override
@@ -34,12 +28,13 @@ public class CustomPlayerMock extends PlayerMock {
         return new MockSpigot();
     }
     
+    @Override
+    public void playSound(Location location, String sound, float volume, float pitch) {
+        return;
+    }
+    
     class MockSpigot extends org.bukkit.entity.Player.Spigot {
-        @Override
-        public void sendMessage(@NotNull net.md_5.bungee.api.chat.BaseComponent component) {
-            return;
-        }
-        
+
         @Override
         public void sendMessage(@NotNull net.md_5.bungee.api.chat.BaseComponent... component) {
             return;

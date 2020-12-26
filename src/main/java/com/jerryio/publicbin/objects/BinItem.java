@@ -5,6 +5,7 @@ import java.util.Date;
 import org.bukkit.inventory.ItemStack;
 
 import com.jerryio.publicbin.enums.OrderEnum;
+import com.jerryio.publicbin.util.DateTime;
 
 public class BinItem {
     public ItemStack item;
@@ -14,7 +15,7 @@ public class BinItem {
 
     public BinItem(ItemStack item, int slot) {
         this.item = item;
-        this.placedTime = new Date().getTime();
+        this.placedTime = DateTime.getTimestamp();
         this.slot = slot;
     }
 

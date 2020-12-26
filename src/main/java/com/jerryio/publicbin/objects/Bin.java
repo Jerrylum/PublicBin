@@ -20,6 +20,7 @@ import org.bukkit.scheduler.BukkitTask;
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.disk.PluginSetting;
 import com.jerryio.publicbin.enums.OrderEnum;
+import com.jerryio.publicbin.util.DateTime;
 import com.jerryio.publicbin.util.PluginLog;
 
 public abstract class Bin {
@@ -131,7 +132,7 @@ public abstract class Bin {
 
         for (int i = 0; i < content.length; i++) {
             ItemStack nowHere = content[i];
-
+            
             if (nowHere != null) {
                 BinItem binItem = getBySlotIdx(i);
                 if (binItem != null && binItem.item.equals(nowHere)) {
@@ -194,7 +195,7 @@ public abstract class Bin {
     }
 
     private void doGrouping() {
-        long now = new Date().getTime();
+        long now = DateTime.getTimestamp();
 
         for (int i = 0; i < binItemList.size(); i++) {
             BinItem mother = binItemList.get(i);

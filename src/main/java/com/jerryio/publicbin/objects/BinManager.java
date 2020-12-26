@@ -10,6 +10,7 @@ import org.bukkit.scheduler.BukkitTask;
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.disk.PluginSetting;
 import com.jerryio.publicbin.enums.ModeEnum;
+import com.jerryio.publicbin.util.DateTime;
 
 public abstract class BinManager {
 
@@ -47,7 +48,7 @@ public abstract class BinManager {
     }
 
     private void doCountdownDespawnCheck() {
-        long now = new Date().getTime();
+        long now = DateTime.getTimestamp();
 
         for (Bin bin : getAllBin()) {
             if (now < bin.requestCheckTime)

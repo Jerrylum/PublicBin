@@ -1,24 +1,18 @@
 package com.jerryio.publicbin.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.permissions.PermissionAttachment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.enums.OrderEnum;
 import com.jerryio.publicbin.objects.BinItem;
-import com.jerryio.publicbin.objects.BinManager;
-import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
