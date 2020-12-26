@@ -14,6 +14,7 @@ import org.junit.Test;
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.test.mock.CustomConsoleCommandSenderMock;
 import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
@@ -27,6 +28,7 @@ public class ShareModeCommandTest {
     
     private CustomPlayerMock player1;
     private PermissionAttachment pa1;
+    private CustomConsoleCommandSenderMock console;
 
     @Before
     public void setUp() {
@@ -40,6 +42,15 @@ public class ShareModeCommandTest {
         player1 = new CustomPlayerMock(server, "Player1");
         pa1 = player1.addAttachment(plugin);
         server.addPlayer(player1);
+        
+        console = new CustomConsoleCommandSenderMock();
+    }
+    
+    @Test
+    public void testDefaultUseCommandInConsole() {
+        handler.onCommand(console, null, "bin", new String[] {});
+        console.assertSaid("");
+        console.assertSaid("§3PublicBin Commands");
     }
     
     @Test
@@ -55,6 +66,13 @@ public class ShareModeCommandTest {
         pa1.setPermission("publicbin.use", true);
         handler.onCommand(player1, null, "bin", new String[] {});
         assertEquals(manager.getUsableBin(player1).getInventory(), player1.getOpenInventory().getTopInventory());
+    }
+    
+    @Test
+    public void testUseCommandInConsole() {
+        handler.onCommand(console, null, "bin", new String[] {"use"});
+        console.assertSaid("§c§4You must be a player to use this command.");
+        console.assertNoMoreSaid();
     }
     
     @Test
