@@ -17,22 +17,17 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build in Minecraft 1.13
-      run: mvn package -Dspigot.api=1.13 -DskipTests --file pom.xml
-    - name: Build in Minecraft 1.14
-      run: mvn package -Dspigot.api=1.14 -DskipTests --file pom.xml
-    - name: Build in Minecraft 1.15
-      run: mvn package -Dspigot.api=1.15 -Dmockbukkit.api=1.15 -Dmockbukkit.version=0.3.0 --file pom.xml
     - name: Build in Minecraft 1.16
       run: mvn package -Dspigot.api=1.16 -Dmockbukkit.api=1.16 -Dmockbukkit.version=0.5.0 --file pom.xml
+    - name: Build in Minecraft 1.15
+      run: mvn package -Dspigot.api=1.15 -Dmockbukkit.api=1.15 -Dmockbukkit.version=0.3.0 --file pom.xml
+    - name: Build in Minecraft 1.14
+      run: mvn package -Dspigot.api=1.14 -DskipTests --file pom.xml
+    - name: Build in Minecraft 1.13
+      run: mvn package -Dspigot.api=1.13 -DskipTests --file pom.xml
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
         name: dist-with-jar
         path: |
           target/PublicBin*.jar
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-
