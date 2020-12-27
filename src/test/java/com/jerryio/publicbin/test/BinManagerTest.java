@@ -80,7 +80,7 @@ public class BinManagerTest {
     
     @Test
     public void testPrivateBinManager() {
-        config.set("mode", "seperate");
+        config.set("mode", "separate");
         plugin.onReload(false);
         handler = PublicBinPlugin.getCommandHandler();
         manager = PublicBinPlugin.getBinManager();
