@@ -2,6 +2,7 @@ package com.jerryio.publicbin.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
@@ -108,7 +109,7 @@ public class ShareModeCommandTest {
         player1.assertSaid("§bCleared public bin.");
         player1.assertNoMoreSaid();
 
-        assertNull(inv.getItem(0));
+        assertTrue(inv.getItem(0) == null || inv.getItem(0).getType() == Material.AIR);
     }
     
     @Test

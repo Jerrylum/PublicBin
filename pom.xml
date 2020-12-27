@@ -17,6 +17,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spigot.api>1.15</spigot.api>
 		<spigot.javadocs>https://helpch.at/docs/${spigot.version}.1/</spigot.javadocs>
+		<mockbukkit.api>1.15</mockbukkit.api>
+		<mockbukkit.version>0.3.0</mockbukkit.version>
 	</properties>
 
 	<issueManagement>
@@ -131,8 +133,8 @@
 		</dependency>
 	  	<dependency>
 			<groupId>com.github.seeseemelk</groupId>
-			<artifactId>MockBukkit-v1.16</artifactId>
-			<version>0.5.0</version>
+			<artifactId>MockBukkit-v${mockbukkit.api}</artifactId>
+			<version>${mockbukkit.version}</version>
 			<scope>test</scope>
 	  	</dependency>
 	</dependencies>

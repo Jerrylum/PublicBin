@@ -227,7 +227,7 @@ public class ComparisonTest {
     @Test
     public void testAmountComparison1() {
         BinItem a = new BinItem(new ItemStack(Material.WOLF_SPAWN_EGG, 20), 0);
-        BinItem b = new BinItem(new ItemStack(Material.CAT_SPAWN_EGG, 20), 0);
+        BinItem b = new BinItem(new ItemStack(Material.BOW, 20), 0);
 
         int result = OrderEnum.Amount.getComparision().run(a, b);
         assertEquals(0, result);
@@ -236,7 +236,7 @@ public class ComparisonTest {
     @Test
     public void testAmountComparison2() {
         BinItem a = new BinItem(new ItemStack(Material.WOLF_SPAWN_EGG, 30), 0);
-        BinItem b = new BinItem(new ItemStack(Material.CAT_SPAWN_EGG, 20), 0);
+        BinItem b = new BinItem(new ItemStack(Material.BOW, 20), 0);
 
         int result = OrderEnum.Amount.getComparision().run(a, b);
         assertEquals(1, result);
@@ -245,7 +245,7 @@ public class ComparisonTest {
     @Test
     public void testAmountComparison3() {
         BinItem a = new BinItem(new ItemStack(Material.WOLF_SPAWN_EGG, 20), 0);
-        BinItem b = new BinItem(new ItemStack(Material.CAT_SPAWN_EGG, 30), 0);
+        BinItem b = new BinItem(new ItemStack(Material.BOW, 30), 0);
 
         int result = OrderEnum.Amount.getComparision().run(a, b);
         assertEquals(-1, result);
@@ -254,7 +254,7 @@ public class ComparisonTest {
     @Test
     public void testTimeComparison1() {
         BinItem a = new BinItem(new ItemStack(Material.WOODEN_AXE), 0);
-        BinItem b = new BinItem(new ItemStack(Material.CAT_SPAWN_EGG), 0);
+        BinItem b = new BinItem(new ItemStack(Material.BOW), 0);
         
         a.placedTime = 0;
         b.placedTime = 0;
@@ -266,7 +266,7 @@ public class ComparisonTest {
     @Test
     public void testTimeComparison2() {
         BinItem a = new BinItem(new ItemStack(Material.WOODEN_AXE), 0);
-        BinItem b = new BinItem(new ItemStack(Material.CAT_SPAWN_EGG), 0);
+        BinItem b = new BinItem(new ItemStack(Material.BOW), 0);
         
         a.placedTime = 2;
         b.placedTime = 0;
@@ -278,7 +278,7 @@ public class ComparisonTest {
     @Test
     public void testTimeComparison3() {
         BinItem a = new BinItem(new ItemStack(Material.WOODEN_AXE), 0);
-        BinItem b = new BinItem(new ItemStack(Material.CAT_SPAWN_EGG), 0);
+        BinItem b = new BinItem(new ItemStack(Material.BOW), 0);
         
         a.placedTime = 0;
         b.placedTime = 2;

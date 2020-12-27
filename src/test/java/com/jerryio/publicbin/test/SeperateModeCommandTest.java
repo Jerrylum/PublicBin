@@ -2,6 +2,7 @@ package com.jerryio.publicbin.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
@@ -117,7 +118,7 @@ public class SeperateModeCommandTest {
         player1.assertSaid("§bCleared your bin.");
         player1.assertNoMoreSaid();
 
-        assertNull(inv.getItem(0));
+        assertTrue(inv.getItem(0) == null || inv.getItem(0).getType() == Material.AIR);
     }
     
     @Test
@@ -158,7 +159,7 @@ public class SeperateModeCommandTest {
         player1.assertSaid("§bCleared Player1 private trash bin.");
         player1.assertNoMoreSaid();
         
-        assertNull(inv.getItem(0));
+        assertTrue(inv.getItem(0) == null || inv.getItem(0).getType() == Material.AIR);
     }
     
     @Test
