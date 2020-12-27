@@ -35,5 +35,3 @@ jobs:
         name: dist-with-jar
         path: |
           target/PublicBin*.jar
-
-
