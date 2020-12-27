@@ -1,5 +1,6 @@
 package com.jerryio.publicbin.test;
 
+import static com.jerryio.publicbin.test.mock.CustomAssert.assertSaid;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -50,15 +51,15 @@ public class ShareModeCommandTest {
     @Test
     public void testDefaultUseCommandInConsole() {
         handler.onCommand(console, null, "bin", new String[] {});
-        console.assertSaid("");
-        console.assertSaid("§3PublicBin Commands");
+        assertSaid(console, "");
+        assertSaid(console, "§3PublicBin Commands");
     }
     
     @Test
     public void testDefaultUseCommandNoPermission() {
         pa1.setPermission("publicbin.use", false);
         handler.onCommand(player1, null, "bin", new String[] {});
-        player1.assertSaid("§4You dont have permission.");
+        assertSaid(player1, "§4You dont have permission.");
         player1.assertNoMoreSaid();
     }
     
@@ -72,7 +73,7 @@ public class ShareModeCommandTest {
     @Test
     public void testUseCommandInConsole() {
         handler.onCommand(console, null, "bin", new String[] {"use"});
-        console.assertSaid("§c§4You must be a player to use this command.");
+        assertSaid(console, "§4You must be a player to use this command.");
         console.assertNoMoreSaid();
     }
     
@@ -80,7 +81,7 @@ public class ShareModeCommandTest {
     public void testUseCommandNoPermission() {
         pa1.setPermission("publicbin.use", false);
         handler.onCommand(player1, null, "bin", new String[] {"use"});
-        player1.assertSaid("§4You dont have permission.");
+        assertSaid(player1, "§4You dont have permission.");
         player1.assertNoMoreSaid();
     }
     
@@ -94,7 +95,7 @@ public class ShareModeCommandTest {
     @Test
     public void testClearCommandNoPermission() {
         handler.onCommand(player1, null, "bin", new String[] {"clear"});
-        player1.assertSaid("§4You dont have permission.");
+        assertSaid(player1, "§4You dont have permission.");
     }
     
     @Test
@@ -106,7 +107,7 @@ public class ShareModeCommandTest {
         inv.addItem(item1);
         
         handler.onCommand(player1, null, "bin", new String[] {"clear"});
-        player1.assertSaid("§bCleared public bin.");
+        assertSaid(player1, "§bCleared public bin.");
         player1.assertNoMoreSaid();
 
         assertTrue(inv.getItem(0) == null || inv.getItem(0).getType() == Material.AIR);
@@ -116,14 +117,14 @@ public class ShareModeCommandTest {
     public void testClearCommandWithNameAndPermission() {
         pa1.setPermission("publicbin.command.clear.public", true);
         handler.onCommand(player1, null, "bin", new String[] {"clear", "whatever"});
-        player1.assertSaid("§bCleared public bin.");
+        assertSaid(player1, "§bCleared public bin.");
         player1.assertNoMoreSaid();
     }
     
     @Test
     public void testReloadCommandNoPermission() {
         handler.onCommand(player1, null, "bin", new String[] {"reload"});
-        player1.assertSaid("§4You dont have permission.");
+        assertSaid(player1, "§4You dont have permission.");
         player1.assertNoMoreSaid();
     }
     
@@ -131,14 +132,14 @@ public class ShareModeCommandTest {
     public void testReloadCommandWithPermission() {
         pa1.setPermission("publicbin.command.reload", true);
         handler.onCommand(player1, null, "bin", new String[] {"reload"});
-        player1.assertSaid("§bPlugin reloaded.");
+        assertSaid(player1, "§bPlugin reloaded.");
         player1.assertNoMoreSaid();
     }
 
     @Test
     public void testHelpCommandNoPermission() {
         handler.onCommand(player1, null, "bin", new String[] {"help"});
-        player1.assertSaid("§4You dont have permission.");
+        assertSaid(player1, "§4You dont have permission.");
         player1.assertNoMoreSaid();
     }
     
@@ -146,8 +147,8 @@ public class ShareModeCommandTest {
     public void testHelpCommandWithPermission() {
         pa1.setPermission("publicbin.command.help", true);
         handler.onCommand(player1, null, "bin", new String[] {"help"});
-        player1.assertSaid("");
-        player1.assertSaid("§3PublicBin Commands");
+        assertSaid(player1, "");
+        assertSaid(player1, "§3PublicBin Commands");
     }
 
     @After
