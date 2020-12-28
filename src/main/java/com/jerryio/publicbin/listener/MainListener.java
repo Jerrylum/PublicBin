@@ -16,6 +16,7 @@ import org.bukkit.inventory.Inventory;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.objects.Bin;
+import com.jerryio.publicbin.util.BukkitVersion;
 
 public class MainListener implements Listener {
 
@@ -94,7 +95,7 @@ public class MainListener implements Listener {
     }
     
     private void playBinSound(Player p, String sub) {
-        boolean verCheck = Bukkit.getBukkitVersion().compareTo("1.15") >= 0;
+        boolean verCheck = BukkitVersion.isSupport("1.15");
         p.playSound(p.getLocation(), (verCheck ? "block.barrel." : "block.shulker_box.") + sub, 1, 2f);
     }
 }

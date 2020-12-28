@@ -61,7 +61,11 @@ public class I18n {
 
     public static String n(CommandSender sender, String str, Object... obj) {
         if (sender instanceof Player) {
-            String locate = ((Player)sender).getLocale();
+            String locate;
+            if (BukkitVersion.isSupport("1.12"))
+                locate = ((Player)sender).getLocale();
+            else
+                locate = PublicBinPlugin.getPluginSetting().getLang();
             return p(locate, str, obj);
         } else {
             return t(str, obj);
