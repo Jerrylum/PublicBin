@@ -6,13 +6,13 @@ lang: en_US
 # - separate (everyone has their own bin)
 mode: share
 
-# How many rows are in the bin
+# The number of rows in the bin
 size: 6
 
 # despawn after a certain amount of time
 countdown-despawn:
   enable: true
-  # How long does a set of item disappear (in seconds)
+  # The time a set of item disappear (in seconds)
   time: 300
 
 # Remove items when there is not much space left
