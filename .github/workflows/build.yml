@@ -29,9 +29,11 @@ jobs:
       run: mvn package -Dspigot.api=1.14 -DskipTests --file pom.xml
     - name: Build in Minecraft 1.13
       run: mvn package -Dspigot.api=1.13 -DskipTests --file pom.xml
+    - name: Build in Minecraft 1.12
+      run: mvn package -Dspigot.api=1.12 -DskipTests --file pom.xml
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: dist-with-jar
+        name: publicbin-dist
         path: |
           target/PublicBin*.jar
