@@ -1,26 +1,20 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
+
+import com.jerryio.publicbin.PublicBinPlugin;
+import com.jerryio.publicbin.commands.BinCommandHandler;
+import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.commands.BinCommandHandler;
-import com.jerryio.publicbin.disk.PluginSetting;
-import com.jerryio.publicbin.objects.BinManager;
-import com.jerryio.publicbin.test.mock.CustomConsoleCommandSenderMock;
-import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
@@ -38,6 +32,7 @@ public class BinManagerTest {
     private CustomPlayerMock player2;
     private PermissionAttachment pa2;
 
+    @SuppressWarnings("deprecation")
     @Before
     public void setUp() {
         System.setProperty("MockTest", "true");

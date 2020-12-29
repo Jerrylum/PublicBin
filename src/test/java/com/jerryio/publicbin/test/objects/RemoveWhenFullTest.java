@@ -1,9 +1,10 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.objects;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
+import com.jerryio.publicbin.test.AbstractInventoryTest;
 import com.jerryio.publicbin.util.DateTime;
 
 public class RemoveWhenFullTest extends AbstractInventoryTest {

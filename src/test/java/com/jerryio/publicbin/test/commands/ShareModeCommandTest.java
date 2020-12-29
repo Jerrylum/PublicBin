@@ -1,36 +1,24 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.commands;
 
 import static com.jerryio.publicbin.test.mock.CustomAssert.assertSaid;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.permissions.PermissionAttachment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.commands.BinCommandHandler;
-import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.test.StandardTest;
 import com.jerryio.publicbin.test.mock.CustomConsoleCommandSenderMock;
 import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
-public class ShareModeCommandTest {
-    private ServerMock server;
-    private PublicBinPlugin plugin;
-    private BinCommandHandler handler;
-    private BinManager manager;
-    
-    private CustomPlayerMock player1;
-    private PermissionAttachment pa1;
-    private CustomConsoleCommandSenderMock console;
+public class ShareModeCommandTest extends StandardTest {
 
     @Before
     public void setUp() {

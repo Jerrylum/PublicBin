@@ -1,11 +1,10 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.objects;
 
 import org.bukkit.Material;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.junit.Before;
 import org.junit.Test;
 
+import com.jerryio.publicbin.test.AbstractInventoryTest;
 import com.jerryio.publicbin.util.DateTime;
 
 public class CountDownDespawnTest extends AbstractInventoryTest {
@@ -28,9 +27,7 @@ public class CountDownDespawnTest extends AbstractInventoryTest {
         inv.setContents(raw);
         bin.requestUpdate();
         server.getScheduler().performTicks(1);
-        
-        ItemStack[] now = inv.getContents();
-        
+                
         // should be unchanged
         assertItemStackArray(raw, inv.getContents());
 

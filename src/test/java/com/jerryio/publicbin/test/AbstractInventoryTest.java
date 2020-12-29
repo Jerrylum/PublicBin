@@ -2,8 +2,13 @@ package com.jerryio.publicbin.test;
 
 import static org.junit.Assert.assertEquals;
 
+import com.jerryio.publicbin.PublicBinPlugin;
+import com.jerryio.publicbin.disk.PluginSetting;
+import com.jerryio.publicbin.objects.Bin;
+import com.jerryio.publicbin.test.mock.CustomPlayerMock;
+import com.jerryio.publicbin.util.DateTime;
+
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,37 +17,20 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.permissions.PermissionAttachment;
 import org.junit.After;
 import org.junit.Before;
 
-import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.commands.BinCommandHandler;
-import com.jerryio.publicbin.disk.PluginSetting;
-import com.jerryio.publicbin.objects.Bin;
-import com.jerryio.publicbin.objects.BinManager;
-import com.jerryio.publicbin.test.mock.CustomPlayerMock;
-import com.jerryio.publicbin.util.DateTime;
-
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
-public abstract class AbstractInventoryTest {
-    protected ServerMock server;
-    protected PublicBinPlugin plugin;
+public abstract class AbstractInventoryTest extends StandardTest {
     protected PluginSetting setting;
-    protected YamlConfiguration config;
-    protected BinCommandHandler handler;
-    protected BinManager manager;
-    
-    protected CustomPlayerMock player1;
-    protected PermissionAttachment pa1;
     
     protected Bin bin;
     protected Inventory inv;
     
     public abstract void configSetting();
 
+    @SuppressWarnings("deprecation")
     @Before
     public void setUp() {
         System.setProperty("MockTest", "true");

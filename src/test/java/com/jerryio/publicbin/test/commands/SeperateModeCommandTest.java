@@ -1,40 +1,26 @@
-package com.jerryio.publicbin.test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+package com.jerryio.publicbin.test.commands;
 
 import static com.jerryio.publicbin.test.mock.CustomAssert.assertSaid;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.permissions.PermissionAttachment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.commands.BinCommandHandler;
-import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.test.StandardTest;
 import com.jerryio.publicbin.test.mock.CustomConsoleCommandSenderMock;
 import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
-public class SeperateModeCommandTest {
-    private ServerMock server;
-    private PublicBinPlugin plugin;
-    private YamlConfiguration config;
-    private BinCommandHandler handler;
-    private BinManager manager;
-    
-    private CustomPlayerMock player1;
-    private PermissionAttachment pa1;
-    private CustomConsoleCommandSenderMock console;
+public class SeperateModeCommandTest extends StandardTest {
 
     @SuppressWarnings("deprecation")
     @Before

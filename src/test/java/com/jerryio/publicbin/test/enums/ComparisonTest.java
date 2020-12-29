@@ -1,4 +1,4 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.enums;
 
 import static org.junit.Assert.assertEquals;
 
@@ -13,14 +13,12 @@ import org.junit.Test;
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.enums.OrderEnum;
 import com.jerryio.publicbin.objects.BinItem;
+import com.jerryio.publicbin.test.StandardTest;
+import com.jerryio.publicbin.test.mock.CustomItemStack;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
-public class ComparisonTest {
-    private ServerMock server;
-    private PublicBinPlugin plugin;
-
+public class ComparisonTest extends StandardTest {
     @Before
     public void setUp() {
         System.setProperty("MockTest", "true");
@@ -192,6 +190,24 @@ public class ComparisonTest {
         
         int result = OrderEnum.Metadata.getComparision().run(a, b);
         assertEquals(0, result);
+    }
+    
+    @Test
+    public void testMetadataComparison8() {      
+        BinItem a = new BinItem(new CustomItemStack(false), 0);
+        BinItem b = new BinItem(new CustomItemStack(false), 0);
+        
+        assertEquals(0, OrderEnum.Metadata.getComparision().run(a, b));
+        
+        a = new BinItem(new CustomItemStack(true), 0);
+        b = new BinItem(new CustomItemStack(false), 0);
+        
+        assertEquals(1, OrderEnum.Metadata.getComparision().run(a, b));
+        
+        a = new BinItem(new CustomItemStack(false), 0);
+        b = new BinItem(new CustomItemStack(true), 0);
+        
+        assertEquals(-1, OrderEnum.Metadata.getComparision().run(a, b));
     }
     
     @SuppressWarnings("deprecation")
