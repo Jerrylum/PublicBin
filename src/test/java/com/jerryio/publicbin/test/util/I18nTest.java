@@ -1,6 +1,7 @@
 package com.jerryio.publicbin.test.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
@@ -38,8 +39,7 @@ public class I18nTest extends StandardTest {
         plugin = (PublicBinPlugin) MockBukkit.load(PublicBinPlugin.class);
 
         
-        assertEquals("PublicBin 指令幫助", I18n.n("zh_tw", "command-help-title"));
-        assertEquals("PublicBin Commands", I18n.n("en_us", "command-help-title"));
+        assertNotEquals(I18n.n("en_us", "command-help-title"), I18n.n("zh_tw", "command-help-title"));
         
         MockBukkit.unmock();
     }
