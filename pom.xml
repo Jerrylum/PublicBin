@@ -16,7 +16,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spigot.api>1.15</spigot.api>
-		<spigot.javadocs>https://helpch.at/docs/${spigot.version}.1/</spigot.javadocs>
+		<spigot.version>${spigot.api}.1</spigot.version>
+		<spigot.javadocs>https://helpch.at/docs/${spigot.version}/</spigot.javadocs>
 		<mockbukkit.api>1.15</mockbukkit.api>
 		<mockbukkit.version>0.3.0</mockbukkit.version>
 	</properties>
@@ -129,7 +130,7 @@
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
-			<version>${spigot.api}.1-R0.1-SNAPSHOT</version>
+			<version>${spigot.version}-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

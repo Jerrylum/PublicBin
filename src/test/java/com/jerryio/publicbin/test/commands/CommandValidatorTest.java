@@ -1,34 +1,21 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.commands;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.bukkit.command.CommandException;
-import org.bukkit.permissions.PermissionAttachment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.commands.CommandValidator;
-import com.jerryio.publicbin.objects.BinManager;
-import com.jerryio.publicbin.test.mock.CustomConsoleCommandSenderMock;
-import com.jerryio.publicbin.test.mock.CustomPlayerMock;
+import com.jerryio.publicbin.test.StandardTest;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
-public class CommandValidatorTest {
-    private ServerMock server;
-    private PublicBinPlugin plugin;
-    private BinCommandHandler handler;
-    private BinManager manager;
-    
-    private CustomPlayerMock player1;
-    private PermissionAttachment pa1;
-    private CustomConsoleCommandSenderMock console;
+public class CommandValidatorTest extends StandardTest {
 
     @Before
     public void setUp() {
@@ -39,42 +26,42 @@ public class CommandValidatorTest {
     }
     
     @Test(expected = CommandException.class)
-    public void testMethodNotNull1() {
+    public void testMethodNotNullException() {
         CommandValidator.notNull(null, "Test");
     }
     
     @Test
-    public void testMethodNotNull2() {
+    public void testMethodNotNullVaild() {
         CommandValidator.notNull(0, "Test");
     }
     
     @Test(expected = CommandException.class)
-    public void testMethodIsTrue1() {
+    public void testMethodIsTrueException() {
         CommandValidator.isTrue(false, "Test");
     }
     
     @Test
-    public void testMethodIsTrue2() {
+    public void testMethodIsTrueVaild() {
         CommandValidator.isTrue(true, "Test");
     }
     
     @Test(expected = CommandException.class)
-    public void testMethodGetInteger1() {
+    public void testMethodGetIntegerException() {
         CommandValidator.getInteger("Test");
     }
     
     @Test
-    public void testMethodGetInteger2() {
+    public void testMethodGetIntegerVaild() {
         assertEquals(123, CommandValidator.getInteger("123"));
     }
     
     @Test
-    public void testMethodIsInteger1() {
+    public void testMethodIsIntegerFalse() {
         assertFalse(CommandValidator.isInteger("abc"));
     }
     
     @Test
-    public void testMethodIsInteger2() {
+    public void testMethodIsIntegerTrue() {
         assertTrue(CommandValidator.isInteger("123"));
     }
 

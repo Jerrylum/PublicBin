@@ -1,14 +1,10 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.objects;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.ItemStack;
 import org.junit.Test;
 
+import com.jerryio.publicbin.test.AbstractInventoryTest;
 import com.jerryio.publicbin.util.DateTime;
 
 public class SmartGroupingTest extends AbstractInventoryTest {

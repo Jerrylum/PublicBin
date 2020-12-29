@@ -1,51 +1,31 @@
-package com.jerryio.publicbin.test;
+package com.jerryio.publicbin.test.commands;
 
+import static com.jerryio.publicbin.test.mock.CustomAssert.assertSaid;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import static com.jerryio.publicbin.test.mock.CustomAssert.assertSaid;
-
-import java.io.IOException;
-
 import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.permissions.PermissionAttachment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.commands.BinCommandHandler;
-import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.test.StandardTest;
 import com.jerryio.publicbin.test.mock.CustomConsoleCommandSenderMock;
 import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
-public class SeperateModeCommandTest {
-    private ServerMock server;
-    private PublicBinPlugin plugin;
-    private YamlConfiguration config;
-    private BinCommandHandler handler;
-    private BinManager manager;
-    
-    private CustomPlayerMock player1;
-    private PermissionAttachment pa1;
-    private CustomConsoleCommandSenderMock console;
+public class ShareModeCommandTest extends StandardTest {
 
-    @SuppressWarnings("deprecation")
     @Before
-    public void setUp() throws IOException {
+    public void setUp() {
         System.setProperty("MockTest", "true");
 
         server = MockBukkit.mock();
         plugin = (PublicBinPlugin) MockBukkit.load(PublicBinPlugin.class);
-        config = PublicBinPlugin.getPluginSetting().getConfig();
-        config.set("mode", "separate");
-        plugin.onReload(false);
         handler = PublicBinPlugin.getCommandHandler();
         manager = PublicBinPlugin.getBinManager();
         
@@ -107,60 +87,26 @@ public class SeperateModeCommandTest {
     }
     
     @Test
-    public void testClearMyBinCommandWithPermission() {
-        pa1.setPermission("publicbin.command.clear.me", true);
-
+    public void testClearCommandWithPermission() {
+        pa1.setPermission("publicbin.command.clear.public", true);
+        
         Inventory inv = manager.getUsableBin(player1).getInventory();
         ItemStack item1 = new ItemStack(Material.STONE, 64);
         inv.addItem(item1);
         
         handler.onCommand(player1, null, "bin", new String[] {"clear"});
-        
-        assertSaid(player1, "§bCleared your bin.");
+        assertSaid(player1, "§bCleared public bin.");
         player1.assertNoMoreSaid();
 
         assertTrue(inv.getItem(0) == null || inv.getItem(0).getType() == Material.AIR);
     }
     
     @Test
-    public void testClearOfflinePlayerBinNoPermission() {
-        pa1.setPermission("publicbin.command.clear.me", true);
+    public void testClearCommandWithNameAndPermission() {
+        pa1.setPermission("publicbin.command.clear.public", true);
         handler.onCommand(player1, null, "bin", new String[] {"clear", "whatever"});
-        assertSaid(player1, "§4You dont have permission.");
+        assertSaid(player1, "§bCleared public bin.");
         player1.assertNoMoreSaid();
-    }
-    
-    @Test
-    public void testClearOnlinePlayerBinNoPermission() {
-        pa1.setPermission("publicbin.command.clear.me", true);
-        handler.onCommand(player1, null, "bin", new String[] {"clear", "Player1"});
-        assertSaid(player1, "§4You dont have permission.");
-        player1.assertNoMoreSaid();
-    }
-    
-    @Test
-    public void testClearOfflinePlayerBinWithPermission() {
-        pa1.setPermission("publicbin.command.clear.me", true);
-        pa1.setPermission("publicbin.command.clear.others", true);
-        handler.onCommand(player1, null, "bin", new String[] {"clear", "whatever"});
-        assertSaid(player1, "§4Target not found.");
-        player1.assertNoMoreSaid();
-    }
-    
-    @Test
-    public void testClearOnlinePlayerBinWithPermission() {
-        pa1.setPermission("publicbin.command.clear.me", true);
-        pa1.setPermission("publicbin.command.clear.others", true);
-        
-        Inventory inv = manager.getUsableBin(player1).getInventory();
-        ItemStack item1 = new ItemStack(Material.STONE, 64);
-        inv.addItem(item1);
-        
-        handler.onCommand(player1, null, "bin", new String[] {"clear", "Player1"});
-        assertSaid(player1, "§bCleared Player1 private trash bin.");
-        player1.assertNoMoreSaid();
-        
-        assertTrue(inv.getItem(0) == null || inv.getItem(0).getType() == Material.AIR);
     }
     
     @Test
