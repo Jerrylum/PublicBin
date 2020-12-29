@@ -31,8 +31,18 @@ public class GeneralUtilTest {
     
     @Test
     public void testIsSupportMethod() {
-        BukkitVersion.setMockVersion("1.16.2-R0.1-SNAPSHOT");
+        BukkitVersion.setMockVersion("2.10.0-R0.1-SNAPSHOT");
+        assertFalse(BukkitVersion.isSupport("2.16"));
+        assertTrue(BukkitVersion.isSupport("2.8"));
+        assertTrue(BukkitVersion.isSupport("1.16"));
+        assertTrue(BukkitVersion.isSupport("1.15"));
+        assertTrue(BukkitVersion.isSupport("1.11"));
+        assertTrue(BukkitVersion.isSupport("1.9"));
+        assertTrue(BukkitVersion.isSupport("1.1"));
         
+        BukkitVersion.setMockVersion("1.16.2-R0.1-SNAPSHOT");
+        assertFalse(BukkitVersion.isSupport("2.16"));
+        assertFalse(BukkitVersion.isSupport("2.8"));
         assertTrue(BukkitVersion.isSupport("1.16"));
         assertTrue(BukkitVersion.isSupport("1.15"));
         assertTrue(BukkitVersion.isSupport("1.11"));
@@ -40,6 +50,8 @@ public class GeneralUtilTest {
         assertTrue(BukkitVersion.isSupport("1.1"));
         
         BukkitVersion.setMockVersion("1.8.3-R0.1-SNAPSHOT");
+        assertFalse(BukkitVersion.isSupport("2.16"));
+        assertFalse(BukkitVersion.isSupport("2.8"));
         assertFalse(BukkitVersion.isSupport("1.16"));
         assertFalse(BukkitVersion.isSupport("1.15"));
         assertFalse(BukkitVersion.isSupport("1.11"));
