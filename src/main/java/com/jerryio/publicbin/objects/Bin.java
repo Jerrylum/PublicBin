@@ -28,7 +28,7 @@ public abstract class Bin {
     protected ItemStack[] itemPosList;
     protected BukkitTask scheduledUpdateTask;
 
-    private OrderEnum[] cacheRemoveOrderList;
+    private OrderEnum[] cacheAutoRemove;
     private OrderEnum[] cacheSmartGrouping;
     protected long requestCheckTime;
 
@@ -155,8 +155,8 @@ public abstract class Bin {
         PluginSetting setting = PublicBinPlugin.getPluginSetting();
         if (!setting.isRmoveWhenFullEnabled())
             return;
-        if (cacheRemoveOrderList == null)
-            cacheRemoveOrderList = setting.getRemoveOrderList();
+        if (cacheAutoRemove == null)
+            cacheAutoRemove = setting.getAutoRemovePrincipleList();
 
         Inventory inv = getInventory();
 
@@ -168,7 +168,7 @@ public abstract class Bin {
             BinItem minScoreItem = null;
 
             for (BinItem target : binItemList) {
-                if (minScoreItem == null || target.compareTo(minScoreItem, cacheRemoveOrderList) < 0) {
+                if (minScoreItem == null || target.compareTo(minScoreItem, cacheAutoRemove) < 0) {
                     minScoreItem = target;
                 }
             }
@@ -187,7 +187,7 @@ public abstract class Bin {
         if (!setting.isSmartGroupingEnabled())
             return;
         if (cacheSmartGrouping == null)
-            cacheSmartGrouping = setting.getSmartGroupingOrderList();
+            cacheSmartGrouping = setting.getSmartGroupingPrincipleList();
 
         doGrouping();
         doSlotReorder();

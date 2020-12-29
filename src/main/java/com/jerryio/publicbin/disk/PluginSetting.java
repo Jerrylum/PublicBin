@@ -87,23 +87,23 @@ public class PluginSetting {
         return Math.max(1, config.getInt("remove-when-full.threshold", 1));
     }
     
-    public OrderEnum[] getRemoveOrderList() {
-        return getOrderList("remove-when-full.order");
+    public OrderEnum[] getAutoRemovePrincipleList() {
+        return getPrincipleList("remove-when-full.order");
     }
     
     public boolean isSmartGroupingEnabled() {
         return config.getBoolean("smart-grouping.enable", false);
     }
     
-    public OrderEnum[] getSmartGroupingOrderList() {
-        return getOrderList("smart-grouping.order");
+    public OrderEnum[] getSmartGroupingPrincipleList() {
+        return getPrincipleList("smart-grouping.order");
     }
     
     public boolean isDebug() {
         return config.getBoolean("debug", false);
     }
     
-    private OrderEnum[] getOrderList(String path) {
+    private OrderEnum[] getPrincipleList(String path) {
         List<String> raw = config.getStringList(path);
         List<OrderEnum> rtn = new ArrayList<OrderEnum>();
         
