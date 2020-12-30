@@ -84,7 +84,7 @@ public class RemoveWhenFullTest extends AbstractInventoryTest {
         
         inv.setContents(raw);
         bin.requestUpdate();
-        server.getScheduler().performTicks(1);        
+        server.getScheduler().performTicks(1);
 
         // should be cleared two apples
         assertItemStackArray(expected, inv.getContents());
@@ -168,6 +168,48 @@ public class RemoveWhenFullTest extends AbstractInventoryTest {
         assertItemStackArray(expected, inv.getContents());
         
         closeInventory();
+    }
+    
+    @Test
+    public void testAddItemsToInventoryOneByOneAndChanged() {
+        openInventory();
+        
+        // start adding items        
+        ItemStack[] expected = new ItemStack[9 * 2];
+                
+        addItemAndWait(expected[0] = new ItemStack(Material.WOODEN_AXE), 0);
+        addItemAndWait(new ItemStack(Material.APPLE), 2);
+        addItemAndWait(new ItemStack(Material.APPLE), 4);
+        addItemAndWait(expected[6] = new ItemStack(Material.GLASS), 6);
+        addItemAndWait(expected[8] = new ItemStack(Material.RED_BED), 8);
+        addItemAndWait(expected[9] = new ItemStack(Material.ORANGE_BED), 9);
+        addItemAndWait(expected[10] = new ItemStack(Material.YELLOW_BED), 10);
+        addItemAndWait(expected[11] = new ItemStack(Material.GREEN_BED), 11);
+        addItemAndWait(expected[12] = new ItemStack(Material.CYAN_BED), 12);
+        addItemAndWait(expected[13] = new ItemStack(Material.LIGHT_BLUE_BED), 13);
+        addItemAndWait(expected[14] = new ItemStack(Material.BLUE_BED), 14);
+        addItemAndWait(expected[15] = new ItemStack(Material.PURPLE_BED), 15);
+        addItemAndWait(expected[16] = new ItemStack(Material.GRAY_BED), 16);
+        addItemAndWait(expected[17] = new ItemStack(Material.BLACK_BED), 17);
+
+        server.getScheduler().performTicks(1);
+        
+
+        // should be cleared two apples
+        assertItemStackArray(expected, inv.getContents());
+
+        DateTime.addMockTimestamp(setting.getKeepingTime() * 1000);
+        server.getScheduler().performTicks(setting.getKeepingTime() * 20);
+        
+        // should be the same
+        assertItemStackArray(expected, inv.getContents());
+        
+        closeInventory();
+    }
+    
+    protected void addItemAndWait(ItemStack item, int slot) {
+        super.addItem(item, slot);
+        server.getScheduler().performTicks(1);
     }
 
 }

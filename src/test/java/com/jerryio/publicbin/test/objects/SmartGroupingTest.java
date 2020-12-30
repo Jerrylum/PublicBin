@@ -142,8 +142,8 @@ public class SmartGroupingTest extends AbstractInventoryTest {
         ItemStack[] expected = new ItemStack[9 * 2];
                 
         addItemAndWait(expected[11] = new ItemStack(Material.WOODEN_AXE), 0);
-        addItemAndWait(new ItemStack(Material.APPLE), 2);
-        addItemAndWait(new ItemStack(Material.APPLE), 4);
+        addItemAndWait(new ItemStack(Material.APPLE, 32), 2);
+        addItemAndWait(new ItemStack(Material.APPLE, 32), 4);
         addItemAndWait(expected[0] = new ItemStack(Material.GLASS), 6);
         addItemAndWait(expected[2] = new ItemStack(Material.RED_BED), 8);
         addItemAndWait(expected[4] = new ItemStack(Material.ORANGE_BED), 9);
@@ -156,7 +156,7 @@ public class SmartGroupingTest extends AbstractInventoryTest {
         addItemAndWait(expected[6] = new ItemStack(Material.GRAY_BED), 16);
         addItemAndWait(expected[10] = new ItemStack(Material.BLACK_BED), 17);
         
-        expected[12] = new ItemStack(Material.APPLE, 2);
+        expected[12] = new ItemStack(Material.APPLE, 64); // test mother full break
         
 
         // should be cleared two apples
