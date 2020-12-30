@@ -5,7 +5,9 @@ import static org.junit.Assert.assertNotEquals;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.commands.BinCommandHandler;
+import com.jerryio.publicbin.objects.Bin;
 import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.test.StandardTest;
 import com.jerryio.publicbin.test.mock.CustomPlayerMock;
 
 import org.bukkit.Bukkit;
@@ -19,16 +21,7 @@ import org.junit.Test;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 
-public class BinManagerTest {
-    private ServerMock server;
-    private PublicBinPlugin plugin;
-    private YamlConfiguration config;
-    private BinCommandHandler handler;
-    private BinManager manager;
-    
-    private CustomPlayerMock player1;
-    private PermissionAttachment pa1;
-    
+public class BinManagerTest extends StandardTest {
     private CustomPlayerMock player2;
     private PermissionAttachment pa2;
 

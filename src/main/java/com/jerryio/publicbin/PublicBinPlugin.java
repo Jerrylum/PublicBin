@@ -133,9 +133,9 @@ public class PublicBinPlugin extends JavaPlugin {
             PluginLog.logDebug(Level.INFO,
                     "Despawn = " + setting.isAutoDespawnEnabled() + " & time = " + setting.getKeepingTime());
             PluginLog.logDebug(Level.INFO, "Auto remove = " + setting.isRmoveWhenFullEnabled() + " & threshold = "
-                    + setting.getKeepingTime() + " & order = " + Arrays.toString(setting.getRemoveOrderList()));
+                    + setting.getKeepingTime() + " & order = " + Arrays.toString(setting.getAutoRemovePrincipleList()));
             PluginLog.logDebug(Level.INFO, "Smart grouping = " + setting.isSmartGroupingEnabled() + " & order = "
-                    + Arrays.toString(setting.getSmartGroupingOrderList()));
+                    + Arrays.toString(setting.getSmartGroupingPrincipleList()));
         }
     }
     
