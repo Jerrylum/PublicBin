@@ -5,7 +5,7 @@
 	<groupId>com.jerryio.publicbin</groupId>
 	<artifactId>PublicBin</artifactId>
 
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>PublicBin</name>
 	<inceptionYear>2020</inceptionYear>
 	<packaging>jar</packaging>
@@ -15,11 +15,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spigot.api>1.15</spigot.api>
+		<spigot.api>1.16</spigot.api>
 		<spigot.version>${spigot.api}.1</spigot.version>
 		<spigot.javadocs>https://helpch.at/docs/${spigot.version}/</spigot.javadocs>
-		<mockbukkit.api>1.15</mockbukkit.api>
-		<mockbukkit.version>0.3.0</mockbukkit.version>
+		<mockbukkit.api>1.16</mockbukkit.api>
+		<mockbukkit.version>0.5.0</mockbukkit.version>
 	</properties>
 
 	<issueManagement>
@@ -59,7 +59,7 @@
 		<testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
 		<defaultGoal>clean package</defaultGoal>
 
-		<finalName>${project.name} v${project.version} mc${spigot.api}</finalName>
+		<finalName>${project.name}_v${project.version}_mc${spigot.api}</finalName>
 
 		<plugins>
 			<plugin>
