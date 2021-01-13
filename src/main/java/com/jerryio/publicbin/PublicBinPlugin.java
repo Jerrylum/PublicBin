@@ -25,7 +25,9 @@ public class PublicBinPlugin extends JavaPlugin {
     public BinCommandHandler commandHandler;
 
     public BinManager binManager;
-    
+
+    private boolean cacheUsedReloadCommand;
+
     public PublicBinPlugin() {
         super();
     }
@@ -113,10 +115,7 @@ public class PublicBinPlugin extends JavaPlugin {
 
     private void doSingletonPatternCheckAndInitial() {
         // Warn about plugin reloaders and the /reload command.
-        if (instance != null || System.getProperty("PublicBinLoaded") != null) {
-            // important, don't use PluginLog here
-            getLogger().log(Level.WARNING, I18n.t("plugin-singleton-warning"));
-        }
+        cacheUsedReloadCommand = instance != null || System.getProperty("PublicBinLoaded") != null;
 
         System.setProperty("PublicBinLoaded", "true");
         instance = this;
@@ -128,6 +127,11 @@ public class PublicBinPlugin extends JavaPlugin {
 
     private void doPrintDebugMsg() {
         PluginLog.info(I18n.t("plugin-enabled", setting.isDebug()));
+        
+        if (cacheUsedReloadCommand) {
+            PluginLog.log(Level.WARNING, I18n.t("plugin-singleton-warning"));
+        }
+
         if (setting.isDebug()) { // optimization
             PluginLog.logDebug(Level.INFO, "Using mode = " + setting.getMode());
             PluginLog.logDebug(Level.INFO,
