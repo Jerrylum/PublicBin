@@ -1,9 +1,11 @@
 package com.jerryio.publicbin.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.text.MessageFormat;
@@ -13,19 +15,27 @@ import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.jerryio.publicbin.PublicBinPlugin;
+import com.jerryio.publicbin.disk.BasicYamlConfig;
 
 public class I18n {
     private static HashMap<String, ResourceBundle> langMap = new HashMap<String, ResourceBundle>();
+    private static YamlConfiguration customizeLang;
     private static ResourceBundle defaultLang;
     
-    public static void load(String locale){
+    public static void load(PublicBinPlugin plugin) {
+        loadCustomizeLanguageFile(plugin);
         loadLanguage("en_US");
         loadLanguage("zh_CN");
         loadLanguage("zh_TW");
         defaultLang = langMap.get("en_us"); // lower cases
+    }
+
+    private static void loadCustomizeLanguageFile(PublicBinPlugin plugin) {
+        customizeLang = BasicYamlConfig.loadYaml(plugin, "messages.yml");
     }
 
     private static void loadLanguage(String locale) {
@@ -39,7 +49,12 @@ public class I18n {
 
     private static String p(String locale, String str, Object[] obj) {
         try {
-            String format = langMap.getOrDefault(locale.toLowerCase(), defaultLang).getString(str);
+            String format;
+            
+            if (customizeLang != null && customizeLang.isSet(str))
+                format = customizeLang.getString(str);
+            else
+                format = langMap.getOrDefault(locale.toLowerCase(), defaultLang).getString(str);
 
             MessageFormat messageFormat;
 

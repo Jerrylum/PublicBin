@@ -1,12 +1,9 @@
 package com.jerryio.publicbin.disk;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.jerryio.publicbin.PublicBinPlugin;
@@ -22,32 +19,7 @@ public class PluginSetting {
     private YamlConfiguration config;
 
     public static PluginSetting load(PublicBinPlugin plugin) {
-        // important, in order to keep all comment messages in the file, use this method to save the default config file
-        
-        File configFile = new File(plugin.getDataFolder(), "config.yml");
-        if (!configFile.exists()) {
-            plugin.getDataFolder().mkdirs();
-            plugin.saveResource("config.yml", true);
-        }
-        
-        YamlConfiguration config = new YamlConfiguration();
-        try {
-            config.load(configFile);
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-            PluginLog.log(Level.WARNING, "The configuration is not a valid YAML file! Please check it with a tool like http://yaml-online-parser.appspot.com/");
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            PluginLog.log(Level.WARNING, "I/O error while reading the configuration. Was the file in use?");
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            PluginLog.log(Level.WARNING, "Unhandled exception while reading the configuration!");
-            return null;
-        }
-
-        return new PluginSetting(config);
+        return new PluginSetting(BasicYamlConfig.loadYaml(plugin, "config.yml"));
     }
     
     private PluginSetting(YamlConfiguration config) {
