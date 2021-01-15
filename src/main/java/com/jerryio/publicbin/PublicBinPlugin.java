@@ -46,7 +46,7 @@ public class PublicBinPlugin extends JavaPlugin {
         setting = PluginSetting.load(this);
         
         // initial language setting
-        I18n.load(setting.getLang());
+        I18n.load(this);
 
         // initial command handler
         commandHandler = BinCommandHandler.load(this);
@@ -85,7 +85,7 @@ public class PublicBinPlugin extends JavaPlugin {
         }
 
         // initial language setting
-        I18n.load(setting.getLang());
+        I18n.load(this);
 
         // initial bin manager
         binManager = BinManager.load(this);
