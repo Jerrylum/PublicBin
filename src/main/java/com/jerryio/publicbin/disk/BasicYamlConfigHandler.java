@@ -42,7 +42,7 @@ public class BasicYamlConfigHandler {
             return false;
         } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
-            PluginLog.log(Level.WARNING, "The file \"" + file.getName() + "\"  cannot be read! Was the file in use?");
+            PluginLog.log(Level.WARNING, "The file \"" + file.getName() + "\" cannot be read! Was the file in use?");
             return false;
         } catch (Exception e) {
             e.printStackTrace();

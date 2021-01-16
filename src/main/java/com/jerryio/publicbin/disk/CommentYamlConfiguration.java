@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
