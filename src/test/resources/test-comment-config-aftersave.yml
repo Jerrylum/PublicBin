@@ -1,0 +1,54 @@
+###### Start Comment
+
+receipt: Oz-Ware Purchase Invoice
+date: 2012-08-06T00:00:00Z
+customer:
+  # Given Name, First Name, 名
+  given: Dorothy
+  # Family Name, Last Name, 姓
+  family: Gale
+  age:
+    # From
+    from: 20
+    # To
+    to: 29
+
+# All items
+items:
+  # Index 0
+- part_no: A4786
+  descrip: Water Bucket (Filled)
+  price: 1.47
+    # Q = 4
+  quantity: 4
+
+    # Index 1
+- part_no: E1628
+  descrip: High Heeled "Ruby" Slippers
+  size: 8
+  price: 133.7
+    # Q = 1
+  quantity: 1
+
+bill-to:
+  # The address 
+  street: |
+    123 Tornado Alley
+    Suite 16
+  # Range: earth
+  # For example: New York
+  city: East Centerville
+  # State short name
+  state: KS
+
+ship-to:
+  street: |
+    123 Tornado Alley
+    Suite 16
+  city: East Centerville
+  state: KS
+
+specialDelivery: |
+  Follow the Yellow Brick Road to the Emerald City. Pay no attention to the man behind the curtain.
+
+###### End Comment

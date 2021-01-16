@@ -12,12 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.disk.BasicYamlConfig;
+import com.jerryio.publicbin.disk.BasicYamlConfigHandler;
 import com.jerryio.publicbin.test.StandardTest;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 
-public class BasicYamlConfigTest extends StandardTest {
+public class BasicYamlConfigHandlerTest extends StandardTest {
 
     @Before
     public void setUp() throws IOException {
@@ -29,18 +29,18 @@ public class BasicYamlConfigTest extends StandardTest {
     
     @Test
     public void testNewBasicYamlConfig() {
-        new BasicYamlConfig();
+        new BasicYamlConfigHandler();
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void testLoadUnknowConfigFile() {       
-        BasicYamlConfig.loadYaml(plugin, "this-is-an-unknow-config-file.yml");
+    public void testLoadUnknowConfigFile() {
+        BasicYamlConfigHandler.loadYaml(plugin, "this-is-an-unknow-config-file.yml");
     }
     
     @Test
-    public void testDoubleLoad() {       
-        BasicYamlConfig.loadYaml(plugin, "config.yml");
-        BasicYamlConfig.loadYaml(plugin, "config.yml");
+    public void testDoubleLoad() {
+        BasicYamlConfigHandler.loadYaml(plugin, "config.yml");
+        BasicYamlConfigHandler.loadYaml(plugin, "config.yml");
     }
     
     @Test
@@ -54,7 +54,7 @@ public class BasicYamlConfigTest extends StandardTest {
             e.printStackTrace();
         }
         
-        BasicYamlConfig.loadYaml(plugin, "config.yml");
+        BasicYamlConfigHandler.loadYaml(plugin, "config.yml");
     }
     
     @Test
@@ -63,7 +63,7 @@ public class BasicYamlConfigTest extends StandardTest {
             FileChannel channel = fileOutputStream.getChannel();
             FileLock lock = channel.lock()) { 
 
-            BasicYamlConfig.loadYaml(plugin, "config.yml");
+            BasicYamlConfigHandler.loadYaml(plugin, "config.yml");
             
             lock.close();
         }        

@@ -19,7 +19,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.disk.BasicYamlConfig;
+import com.jerryio.publicbin.disk.BasicYamlConfigHandler;
 
 public class I18n {
     private static HashMap<String, ResourceBundle> langMap = new HashMap<String, ResourceBundle>();
@@ -35,7 +35,7 @@ public class I18n {
     }
 
     private static void loadCustomizeLanguageFile(PublicBinPlugin plugin) {
-        customizeLang = BasicYamlConfig.loadYaml(plugin, "messages.yml");
+        customizeLang = BasicYamlConfigHandler.loadYaml(plugin, "messages.yml");
     }
 
     private static void loadLanguage(String locale) {

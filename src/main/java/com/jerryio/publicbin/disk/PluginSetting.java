@@ -19,7 +19,7 @@ public class PluginSetting {
     private YamlConfiguration config;
 
     public static PluginSetting load(PublicBinPlugin plugin) {
-        return new PluginSetting(BasicYamlConfig.loadYaml(plugin, "config.yml"));
+        return new PluginSetting(AutoUpdateYamlConfigHandler.loadYaml(plugin, "config.yml"));
     }
     
     private PluginSetting(YamlConfiguration config) {
@@ -29,6 +29,10 @@ public class PluginSetting {
     @Deprecated
     public YamlConfiguration getConfig() {
         return config;
+    }
+    
+    public boolean isLoaded() {
+        return config != null;
     }
     
     public String getLang() {
