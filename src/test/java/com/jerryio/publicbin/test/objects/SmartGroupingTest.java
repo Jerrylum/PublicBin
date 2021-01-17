@@ -12,6 +12,7 @@ public class SmartGroupingTest extends AbstractInventoryTest {
     @Override
     public void configSetting() {
         config.set("countdown-despawn.enable", false);
+        config.set("clear-intervals.enable", false);
         config.set("remove-when-full.enable", false);
         config.set("smart-grouping.enable", true);
     }
