@@ -30,10 +30,10 @@ public class AutoUpdateYamlConfigHandler extends BasicYamlConfigHandler {
         if (copyTemplate) {
             plugin.getDataFolder().mkdirs();
             plugin.saveResource(name, true);
+            
+            original = new FileYamlContent(plugin, name);
         }
         
-        
-        original = new FileYamlContent(plugin, name);
         if (original.config == null)
             return null;
         
