@@ -14,11 +14,15 @@ import com.jerryio.publicbin.util.I18n;
 import com.jerryio.publicbin.util.PluginLog;
 
 public class PluginSetting {
+    
+    public static final String[] OLD_CONFIG_MD5_CHECKSUMS = {
+            "1a3144fbbd4835c947010725b681e6c5"
+    };
 
     private YamlConfiguration config;
 
     public static PluginSetting load(PublicBinPlugin plugin) {
-        return new PluginSetting(AutoUpdateYamlConfigHandler.loadYaml(plugin, "config.yml"));
+        return new PluginSetting(AutoUpdateYamlConfigHandler.loadYaml(plugin, "config.yml", OLD_CONFIG_MD5_CHECKSUMS));
     }
     
     private PluginSetting(YamlConfiguration config) {

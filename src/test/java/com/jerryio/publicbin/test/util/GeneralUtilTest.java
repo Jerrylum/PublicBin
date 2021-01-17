@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import com.jerryio.publicbin.util.BukkitVersion;
 import com.jerryio.publicbin.util.DateTime;
+import com.jerryio.publicbin.util.MD5Checksum;
 import com.jerryio.publicbin.util.PluginLog;
 
 
@@ -22,6 +23,11 @@ public class GeneralUtilTest {
     @Test
     public void testNewDateTimeInstance() {
         new DateTime();
+    }
+    
+    @Test
+    public void testNewMD5Instance() {
+        new MD5Checksum();
     }
     
     @Test
