@@ -39,5 +39,10 @@ public class CustomPlayerMock extends PlayerMock {
         public void sendMessage(@NotNull net.md_5.bungee.api.chat.BaseComponent... component) {
             return;
         }
+        
+        @Override
+        public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
+            return;
+        }
     }
 }

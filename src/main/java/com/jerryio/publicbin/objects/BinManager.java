@@ -49,6 +49,8 @@ public abstract class BinManager {
 
         if (scheduledTask != null)
             Bukkit.getScheduler().cancelTask(scheduledTask.getTaskId());
+        
+        scheduledTask = null;
     }
 
     private void doTickCheck() {        
