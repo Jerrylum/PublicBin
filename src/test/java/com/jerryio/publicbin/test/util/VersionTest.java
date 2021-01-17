@@ -22,31 +22,46 @@ public class VersionTest {
 
     @Test
     public void compareTo_withEarlierVersion_isGreaterThan() {
-        assertEquals(new Version("2.0.0").compareTo(new Version("1.0.0")), 1);
+        assertEquals(1, new Version("2.0.0").compareTo(new Version("1.0.0")));
     }
 
     @Test
     public void compareTo_withSameVersion_isEqual() {
-        assertEquals(new Version("2.0.0").compareTo(new Version("2.0.0")), 0);
+        assertEquals(0, new Version("2.0.0").compareTo(new Version("2.0.0")));
     }
 
     @Test
     public void compareTo_withLaterVersion_isLessThan() {
-        assertEquals(new Version("1.0.0").compareTo(new Version("2.0.0")), -1);
+        assertEquals(-1, new Version("1.0.0").compareTo(new Version("2.0.0")));
     }
 
     @Test
-    public void compareTo_withMorePreciseSameVersion_isFalse() {
-        assertEquals(new Version("1").compareTo(new Version("1.0.0")), 0);
+    public void compareTo_withMorePreciseSameVersion_isEqual() {
+        assertEquals(0, new Version("1").compareTo(new Version("1.0.0")));
     }
 
     @Test
-    public void compareTo_withMorePreciseEarlierVersion_isFalse() {
-        assertEquals(new Version("2").compareTo(new Version("1.0.0")), 1);
+    public void compareTo_withMorePreciseEarlierVersion_isMoreThan() {
+        assertEquals(1, new Version("2").compareTo(new Version("1.0.0")));
     }
 
     @Test
     public void compareTo_withMorePreciseLaterVersion_isLessThan() {
-        assertEquals(new Version("1").compareTo(new Version("1.0.1")), -1);
+        assertEquals(-1, new Version("1").compareTo(new Version("1.0.1")));
+    }
+    
+    @Test
+    public void compareTo_withLessPreciseSameVersion_isEqual() {
+        assertEquals(0, new Version("1.0.0").compareTo(new Version("1")));
+    }
+
+    @Test
+    public void compareTo_withLessPreciseEarlierVersion_isMoreThan() {
+        assertEquals(1, new Version("2.0.0").compareTo(new Version("1")));
+    }
+
+    @Test
+    public void compareTo_withLessPreciseLaterVersion_isMoreThan() {
+        assertEquals(1, new Version("1.0.1").compareTo(new Version("1")));
     }
 }
