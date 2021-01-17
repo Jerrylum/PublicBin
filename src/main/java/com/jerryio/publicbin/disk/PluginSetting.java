@@ -9,21 +9,24 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.enums.ModeEnum;
 import com.jerryio.publicbin.enums.OrderEnum;
+import com.jerryio.publicbin.enums.WarningEnum;
 import com.jerryio.publicbin.util.I18n;
 import com.jerryio.publicbin.util.PluginLog;
 
 public class PluginSetting {
-    
-//    private PublicBinPlugin plugin;
-    
+
     private YamlConfiguration config;
 
     public static PluginSetting load(PublicBinPlugin plugin) {
-        return new PluginSetting(BasicYamlConfig.loadYaml(plugin, "config.yml"));
+        return new PluginSetting(AutoUpdateYamlConfigHandler.loadYaml(plugin, "config.yml"));
     }
     
     private PluginSetting(YamlConfiguration config) {
-        this.config = config;
+        if (config != null) {
+            this.config = config;
+        } else {
+            this.config = new YamlConfiguration();
+        }
     }
     
     @Deprecated
@@ -48,7 +51,23 @@ public class PluginSetting {
     }
     
     public int getKeepingTime() {
-        return config.getInt("countdown-despawn.time", 0);
+        return config.getInt("countdown-despawn.time", 300);
+    }
+    
+    public boolean isClearIntervalsEnabled() {
+        return config.getBoolean("clear-intervals.enable", false);
+    }
+    
+    public int getClearIntervalsTime() {
+        return config.getInt("clear-intervals.time", 600);
+    }
+    
+    public WarningEnum getClearWarningMessageType() {
+        return "actionbar".equalsIgnoreCase(config.getString("clear-intervals.warnings.type")) ? WarningEnum.ACTIONBAR : WarningEnum.TYPE; 
+    }
+    
+    public List<Integer> getClearWarningPeriod() {
+        return config.getIntegerList("clear-intervals.warnings.period"); 
     }
     
     public boolean isRmoveWhenFullEnabled() {

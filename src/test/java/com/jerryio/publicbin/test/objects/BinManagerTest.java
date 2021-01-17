@@ -64,6 +64,10 @@ public class BinManagerTest extends StandardTest {
         
         PlayerQuitEvent event2 = new PlayerQuitEvent(player2, "Tigger quit event");
         Bukkit.getPluginManager().callEvent(event2);
+        
+        manager.close();
+        manager.close();
+        manager.close();
     }
     
     @Test
@@ -85,6 +89,10 @@ public class BinManagerTest extends StandardTest {
         
         PlayerQuitEvent event2 = new PlayerQuitEvent(player2, "Tigger quit event");
         Bukkit.getPluginManager().callEvent(event2);
+        
+        manager.close();
+        manager.close();
+        manager.close();
     }
 
     @After

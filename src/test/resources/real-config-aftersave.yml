@@ -1,19 +1,3 @@
-# Language used by the plugin, for example: en_US, zh_CN, zh_TW
-lang: en_US
-
-# The inventory mode can be...
-# - share (default, everyone using the same bin)
-# - separate (everyone has their own bin)
-mode: share
-
-# The number of rows in the bin
-size: 6
-
-# despawn after a certain amount of time
-countdown-despawn:
-  enable: true
-  # The time a set of item disappear (in seconds)
-  time: 300
 
 # Remove all items at regular intervals
 clear-intervals:
@@ -28,7 +12,30 @@ clear-intervals:
     type: actionbar
     # Output a clear warning whenever there is a certain amount of time
     # remaining. (in seconds)
-    period: [60, 30, 10, 0]
+    period:
+    - 180
+    - 120
+    - 60
+    - 30
+    - 10
+    - 0
+
+# Using language in the console, for example: en_us, zh_cn, zh_tw
+lang: zh_TW
+
+# The inventory mode can be...
+# - share (default, everyone using the same bin)
+# - separate (everyone has their own bin)
+mode: separate
+
+# How many rows are in the bin
+size: 6
+
+# despawn after a certain amount of time
+countdown-despawn:
+  enable: true
+  # How long does a set of item disappear (in seconds)
+  time: 300
 
 # Remove items when there is not much space left
 remove-when-full:
@@ -57,7 +64,7 @@ smart-grouping:
   - amount
   - time
   
-debug: false
+debug: true
 
 # Config version identifier. DO NOT CHANGE THIS
 version: 1.1.0

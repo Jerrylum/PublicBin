@@ -7,15 +7,17 @@ import org.junit.Test;
 import com.jerryio.publicbin.test.AbstractInventoryTest;
 import com.jerryio.publicbin.util.DateTime;
 
-public class CountDownDespawnTest extends AbstractInventoryTest {
-    
+public class ClearIntervalsWithActionbarTest extends AbstractInventoryTest {
+
+    @Override
     public void configSetting() {
-        config.set("countdown-despawn.enable", true);
-        config.set("clear-intervals.enable", false);
+        config.set("countdown-despawn.enable", false);
+        config.set("clear-intervals.enable", true);
+        config.set("clear-intervals.warnings.type", "actionbar");
         config.set("remove-when-full.enable", false);
         config.set("smart-grouping.enable", false);
     }
-    
+
     @Test
     public void testSetInventoryContentAndRequestUpdate() {
         for (int i = 0; i < 10; i ++) {
@@ -30,19 +32,12 @@ public class CountDownDespawnTest extends AbstractInventoryTest {
             bin.requestUpdate();
             server.getScheduler().performTicks(1);
                     
-            // should be unchanged
-            assertItemStackArray(raw, inv.getContents());
-    
-            DateTime.addMockTimestamp(setting.getKeepingTime() * 1000);
-            server.getScheduler().performTicks(setting.getKeepingTime() * 20);
-            
-            // should be empty
-            assertItemStackArray(new ItemStack[9 * 2], inv.getContents());
+            normalCheck(raw);
             
             closeInventory();
         }
     }
-    
+
     @Test
     public void testAddItemsToInventoryAndRequestUpdate() {
         for (int i = 0; i < 10; i ++) {
@@ -65,23 +60,15 @@ public class CountDownDespawnTest extends AbstractInventoryTest {
             addItem(expected[15] = new ItemStack(Material.PURPLE_BED), 15);
             addItem(expected[16] = new ItemStack(Material.GRAY_BED), 16);
             addItem(expected[17] = new ItemStack(Material.BLACK_BED), 17);
-    
+
             server.getScheduler().performTicks(1);
-            
-    
-            // should be unchanged
-            assertItemStackArray(expected, inv.getContents());
-    
-            DateTime.addMockTimestamp(setting.getKeepingTime() * 1000);
-            server.getScheduler().performTicks(setting.getKeepingTime() * 20);
-            
-            // should be empty
-            assertItemStackArray(new ItemStack[9 * 2], inv.getContents());
+
+            normalCheck(expected);
             
             closeInventory();
-        }
+        }        
     }
-    
+
     @Test
     public void testWait10MinutesThenAddItemsToInventoryAndRequestUpdate() {
         for (int i = 0; i < 10; i ++) {
@@ -107,21 +94,37 @@ public class CountDownDespawnTest extends AbstractInventoryTest {
             addItem(expected[15] = new ItemStack(Material.PURPLE_BED), 15);
             addItem(expected[16] = new ItemStack(Material.GRAY_BED), 16);
             addItem(expected[17] = new ItemStack(Material.BLACK_BED), 17);
-    
+
             server.getScheduler().performTicks(1);
-            
-    
-            // should be unchanged
-            assertItemStackArray(expected, inv.getContents());
-    
-            DateTime.addMockTimestamp(setting.getKeepingTime() * 1000);
-            server.getScheduler().performTicks(setting.getKeepingTime() * 20);
-            
-            // should be empty
-            assertItemStackArray(new ItemStack[9 * 2], inv.getContents());
+
+            normalCheck(expected);
             
             closeInventory();
-        }
+        }        
     }
+    
+    private void normalCheck(ItemStack[] expected) {
+        // should be unchanged
+        assertItemStackArray(expected, inv.getContents());
 
+        DateTime.addMockTimestamp(540 * 1000);
+        server.getScheduler().performTicks(540 * 20);
+
+        assertItemStackArray(expected, inv.getContents());
+        
+        DateTime.addMockTimestamp(30 * 1000);
+        server.getScheduler().performTicks(30 * 20);
+
+        assertItemStackArray(expected, inv.getContents());
+        
+        DateTime.addMockTimestamp(20 * 1000);
+        server.getScheduler().performTicks(20 * 20);
+
+        assertItemStackArray(expected, inv.getContents());
+        
+        DateTime.addMockTimestamp(10 * 1000);
+        server.getScheduler().performTicks(10 * 20);
+
+        assertItemStackArray(new ItemStack[9 * 2], inv.getContents());
+    }
 }

@@ -15,6 +15,8 @@ public class DateTime {
     }
     
     public static void addMockTimestamp(long time) {
-        mockTime += new Date().getTime() + time;
+        if (mockTime == 0)
+            mockTime = new Date().getTime();
+        mockTime += time;
     }
 }
