@@ -1,16 +1,20 @@
 package com.jerryio.publicbin.test.disk;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,7 +28,9 @@ import org.junit.Test;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.disk.AutoUpdateYamlConfigHandler;
+import com.jerryio.publicbin.disk.PluginSetting;
 import com.jerryio.publicbin.test.StandardTest;
+import com.jerryio.publicbin.util.MD5Checksum;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 
@@ -144,6 +150,38 @@ public class AutoUpdateYamlConfigHandlerTest extends StandardTest {
         YamlConfiguration config = AutoUpdateYamlConfigHandler.loadYaml(plugin, "not-a-resource.yml");
         
         assertEquals("1.2.3", config.getString("version"));
+    }
+    
+    @Test
+    public void testLazyUpdate() throws Exception {
+        testVersion("1.0.0");
+    }
+    
+    private void testVersion(String ver) throws Exception {
+        File configFile = new File(plugin.getDataFolder(), "config.yml");
+        
+        Files.copy(plugin.getResource("config-" + ver + ".yml"), configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        
+        AutoUpdateYamlConfigHandler.loadYaml(plugin, "config.yml", PluginSetting.OLD_CONFIG_MD5_CHECKSUMS);
+        
+        String expected = MD5Checksum.createStringChecksum(plugin.getResource("config.yml"));
+        String actual = MD5Checksum.createStringChecksum(new FileInputStream(configFile));
+        
+        assertEquals(expected, actual);
+    }
+    
+    @Test
+    public void testLazyUpdateWithoutMD5() throws Exception {
+        File configFile = new File(plugin.getDataFolder(), "config.yml");
+        
+        Files.copy(plugin.getResource("config-1.0.0.yml"), configFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        
+        AutoUpdateYamlConfigHandler.loadYaml(plugin, "config.yml", new String[] {"does not match"});
+        
+        String expected = MD5Checksum.createStringChecksum(plugin.getResource("config.yml"));
+        String actual = MD5Checksum.createStringChecksum(new FileInputStream(configFile));
+        
+        assertNotEquals(expected, actual);
     }
     
     @After

@@ -1,0 +1,45 @@
+# Using language, for example: en_US, zh_CN, zh_TW
+lang: en_US
+
+# The inventory mode can be...
+# - share (default, everyone using the same bin)
+# - separate (everyone has their own bin)
+mode: share
+
+# The number of rows in the bin
+size: 6
+
+# despawn after a certain amount of time
+countdown-despawn:
+  enable: true
+  # The time a set of item disappear (in seconds)
+  time: 300
+
+# Remove items when there is not much space left
+remove-when-full:
+  enable: true
+  # When the number of remaining grids is less than this number, the item will
+  # be cleared
+  threshold: 6
+  # Sort according to these principles, priority from top to bottom
+  # Item with the lower priority will be removed
+  order:
+  - metadata
+  - type
+  - durability
+  - amount
+  - time
+
+# Sort items in the bin automatically
+smart-grouping:
+  enable: true
+  # Sort according to these principles, priority from top to bottom
+  # Item with the highest priority will be placed in the first grid
+  order:
+  - type
+  - metadata
+  - durability
+  - amount
+  - time
+  
+debug: false
