@@ -24,7 +24,7 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Build in Minecraft 1.15
-      run: mvn package -Dspigot.api=1.15 -Dmockbukkit.api=1.15 -Dmockbukkit.version=0.3.0 --file pom.xml
+      run: mvn package -Dspigot.api=1.15 -DskipTests --file pom.xml
     - name: Build in Minecraft 1.14
       run: mvn package -Dspigot.api=1.14 -DskipTests --file pom.xml
     - name: Build in Minecraft 1.13
