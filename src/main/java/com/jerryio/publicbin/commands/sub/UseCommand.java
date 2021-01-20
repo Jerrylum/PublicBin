@@ -32,7 +32,7 @@ public class UseCommand extends BinSubCommand {
     @Override
     public void execute(CommandSender sender, String label, String[] args) throws CommandException {        
         Player p = CommandValidator.getPlayerSender(sender); 
-        p.openInventory(PublicBinPlugin.getBinManager().getUsableBin(p).getInventory());
+        PublicBinPlugin.getBinManager().getUsableBin(p).openInventory(p);
     }
 
     @Override

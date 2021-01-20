@@ -55,6 +55,8 @@ public class BinManagerTest extends StandardTest {
         handler.onCommand(player1, null, "bin", new String[] {});
         handler.onCommand(player2, null, "bin", new String[] {});
         
+        server.getScheduler().performTicks(1);
+        
         assertEquals(manager.getUsableBin(player1).getInventory(), player1.getOpenInventory().getTopInventory());
         assertEquals(manager.getUsableBin(player2).getInventory(), player2.getOpenInventory().getTopInventory());
         assertEquals(manager.getUsableBin(player1).getInventory(), manager.getUsableBin(player2).getInventory());
@@ -79,6 +81,8 @@ public class BinManagerTest extends StandardTest {
 
         handler.onCommand(player1, null, "bin", new String[] {});
         handler.onCommand(player2, null, "bin", new String[] {});
+        
+        server.getScheduler().performTicks(1);
         
         assertEquals(manager.getUsableBin(player1).getInventory(), player1.getOpenInventory().getTopInventory());
         assertEquals(manager.getUsableBin(player2).getInventory(), player2.getOpenInventory().getTopInventory());
