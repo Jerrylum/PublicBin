@@ -1,7 +1,5 @@
 package com.jerryio.publicbin.listener;
 
-import java.lang.annotation.Target;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -11,7 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -22,12 +19,10 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.objects.Bin;
 import com.jerryio.publicbin.util.BukkitVersion;
-import com.jerryio.publicbin.util.PluginLog;
 
 public class MainListener implements Listener {
 
@@ -93,14 +88,14 @@ public class MainListener implements Listener {
         PublicBinPlugin.getBinManager().trackDroppedItem(event.getEntity());
     }
     
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onEntityDamageEvent(EntityDamageEvent event) {
         Entity e = event.getEntity();
         if (e.getType() == EntityType.DROPPED_ITEM)
             PublicBinPlugin.getBinManager().trackDroppedItem((Item) e);
     }
     
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler
     public void onEntityPickupItemEvent(EntityPickupItemEvent event) {
         PublicBinPlugin.getBinManager().untrackDroppedItem(event.getItem());
     }

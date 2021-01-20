@@ -94,6 +94,10 @@ public class PluginSetting {
         return getPrincipleList("smart-grouping.order");
     }
     
+    public boolean isCollectDespawnEnabled() {
+        return config.getBoolean("collect-despawn.enable", false);
+    }
+    
     public boolean isDebug() {
         return config.getBoolean("debug", false);
     }

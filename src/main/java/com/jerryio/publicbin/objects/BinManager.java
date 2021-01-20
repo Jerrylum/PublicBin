@@ -40,7 +40,7 @@ public abstract class BinManager {
         if (setting.isClearIntervalsEnabled())
             allClearStractegies.add(new ClearIntervalsStrategy(this));
         
-        if (this instanceof PublicBinManager)
+        if (this instanceof PublicBinManager && setting.isCollectDespawnEnabled())
             allClearStractegies.add((cdStrategy = new CollectDespawnStrategy(this)));
         
         scheduledTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> doTickCheck(), 20, 20);

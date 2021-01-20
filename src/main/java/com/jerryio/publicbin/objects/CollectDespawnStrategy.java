@@ -7,8 +7,6 @@ import java.util.List;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.Inventory;
 
-import com.jerryio.publicbin.util.PluginLog;
-
 public class CollectDespawnStrategy extends Strategy {
 
     private List<Item> trackingItems;
@@ -50,7 +48,7 @@ public class CollectDespawnStrategy extends Strategy {
     }
 
     public void track(Item item) {
-        PluginLog.info(item.getPickupDelay() + "!");
+        // no item.getPickupDelay() check
         if (!trackingItems.contains(item))
             trackingItems.add(item);
     }
