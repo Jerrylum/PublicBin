@@ -1,10 +1,19 @@
 package com.jerryio.publicbin.listener;
 
+import java.lang.annotation.Target;
+
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -13,10 +22,12 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.objects.Bin;
 import com.jerryio.publicbin.util.BukkitVersion;
+import com.jerryio.publicbin.util.PluginLog;
 
 public class MainListener implements Listener {
 
@@ -75,6 +86,23 @@ public class MainListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void OnPlayerQuitEvent(PlayerQuitEvent event) {
         PublicBinPlugin.getBinManager().onPlayerQuit(event.getPlayer());
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onItemDespawnEvent(ItemDespawnEvent event) {
+        PublicBinPlugin.getBinManager().trackDroppedItem(event.getEntity());
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onEntityDamageEvent(EntityDamageEvent event) {
+        Entity e = event.getEntity();
+        if (e.getType() == EntityType.DROPPED_ITEM)
+            PublicBinPlugin.getBinManager().trackDroppedItem((Item) e);
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onEntityPickupItemEvent(EntityPickupItemEvent event) {
+        PublicBinPlugin.getBinManager().untrackDroppedItem(event.getItem());
     }
 
     private Bin getInteractBin(InventoryInteractEvent event) {

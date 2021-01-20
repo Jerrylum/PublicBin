@@ -131,7 +131,7 @@ public class PublicBinPlugin extends JavaPlugin {
         if (cacheUsedReloadCommand) {
             PluginLog.log(Level.WARNING, I18n.t("plugin-singleton-warning"));
         }
-
+        
         if (setting.isDebug()) { // optimization
             PluginLog.logDebug(Level.INFO, "Using mode = " + setting.getMode());
             PluginLog.logDebug(Level.INFO,
