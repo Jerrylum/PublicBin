@@ -13,6 +13,7 @@ import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.disk.PluginSetting;
 import com.jerryio.publicbin.listener.MainListener;
 import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.update.PublicBinUpdateChecker;
 import com.jerryio.publicbin.util.I18n;
 import com.jerryio.publicbin.util.PluginLog;
 
@@ -61,6 +62,8 @@ public class PublicBinPlugin extends JavaPlugin {
         PluginLog.setDebugEnabled(setting.isDebug());
 
         doPrintDebugMsg();
+        
+        doCheckUpdates();
         
         doMetricsSend();
     }
@@ -143,6 +146,12 @@ public class PublicBinPlugin extends JavaPlugin {
                     + setting.getKeepingTime() + " & order = " + Arrays.toString(setting.getAutoRemovePrincipleList()));
             PluginLog.logDebug(Level.INFO, "Smart grouping = " + setting.isSmartGroupingEnabled() + " & order = "
                     + Arrays.toString(setting.getSmartGroupingPrincipleList()));
+        }
+    }
+    
+    private void doCheckUpdates() {
+        if (System.getProperty("MockTest") == null) {            
+            new PublicBinUpdateChecker(this).checkForUpdates();
         }
     }
     
