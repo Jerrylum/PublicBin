@@ -1,10 +1,16 @@
 package com.jerryio.publicbin.listener;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -75,6 +81,23 @@ public class MainListener implements Listener {
     @EventHandler(priority = EventPriority.NORMAL)
     public void OnPlayerQuitEvent(PlayerQuitEvent event) {
         PublicBinPlugin.getBinManager().onPlayerQuit(event.getPlayer());
+    }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onItemDespawnEvent(ItemDespawnEvent event) {
+        PublicBinPlugin.getBinManager().trackDroppedItem(event.getEntity());
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityDamageEvent(EntityDamageEvent event) {
+        Entity e = event.getEntity();
+        if (e.getType() == EntityType.DROPPED_ITEM)
+            PublicBinPlugin.getBinManager().trackDroppedItem((Item) e);
+    }
+    
+    @EventHandler
+    public void onEntityPickupItemEvent(EntityPickupItemEvent event) {
+        PublicBinPlugin.getBinManager().untrackDroppedItem(event.getItem());
     }
 
     private Bin getInteractBin(InventoryInteractEvent event) {

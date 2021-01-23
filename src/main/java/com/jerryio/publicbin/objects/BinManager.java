@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -16,6 +17,7 @@ public abstract class BinManager {
 
     private BukkitTask scheduledTask;
     private List<Strategy> allClearStractegies;
+    private CollectDespawnStrategy cdStrategy;
 
     public static BinManager load(PublicBinPlugin plugin) {
         BinManager rtn = plugin.setting.getMode() == ModeEnum.ShareMode ? new PublicBinManager() : new PrivateBinManager();
@@ -38,6 +40,9 @@ public abstract class BinManager {
         if (setting.isClearIntervalsEnabled())
             allClearStractegies.add(new ClearIntervalsStrategy(this));
         
+        if (this instanceof PublicBinManager && setting.isCollectDespawnEnabled())
+            allClearStractegies.add((cdStrategy = new CollectDespawnStrategy(this)));
+        
         scheduledTask = Bukkit.getScheduler().runTaskTimer(plugin, () -> doTickCheck(), 20, 20);
 
     }
@@ -56,6 +61,14 @@ public abstract class BinManager {
     private void doTickCheck() {        
         for (Strategy s : allClearStractegies)
             s.tickCheck();
+    }
+    
+    public void trackDroppedItem(Item item) {
+        if (cdStrategy != null) cdStrategy.track(item);
+    }
+    
+    public void untrackDroppedItem(Item item) {
+        if (cdStrategy != null) cdStrategy.untrack(item);
     }
 
     public abstract Bin getUsableBin(Player p);

@@ -134,7 +134,7 @@ public class PublicBinPlugin extends JavaPlugin {
         if (cacheUsedReloadCommand) {
             PluginLog.log(Level.WARNING, I18n.t("plugin-singleton-warning"));
         }
-
+        
         if (setting.isDebug()) { // optimization
             PluginLog.logDebug(Level.INFO, "Using mode = " + setting.getMode());
             PluginLog.logDebug(Level.INFO,
@@ -146,6 +146,7 @@ public class PublicBinPlugin extends JavaPlugin {
                     + setting.getKeepingTime() + " & order = " + Arrays.toString(setting.getAutoRemovePrincipleList()));
             PluginLog.logDebug(Level.INFO, "Smart grouping = " + setting.isSmartGroupingEnabled() + " & order = "
                     + Arrays.toString(setting.getSmartGroupingPrincipleList()));
+            PluginLog.logDebug(Level.INFO, "Collect despawn = " + setting.isCollectDespawnEnabled());
         }
     }
     

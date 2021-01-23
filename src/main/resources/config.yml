@@ -56,6 +56,11 @@ smart-grouping:
   - durability
   - amount
   - time
+
+# put all dropped items that are about to disappear in the server into the 
+# public trash bin
+collect-despawn:
+  enable: false
   
 debug: false
 
