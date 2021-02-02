@@ -12,6 +12,7 @@ public class RemoveWhenFullTest extends AbstractInventoryTest {
     @Override
     public void configSetting() {
         config.set("countdown-despawn.enable", false);
+        config.set("clear-intervals.enable", false);
         config.set("remove-when-full.enable", true);
         config.set("smart-grouping.enable", false);
     }

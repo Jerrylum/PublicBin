@@ -1,57 +1,36 @@
 package com.jerryio.publicbin.disk;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.jerryio.publicbin.PublicBinPlugin;
 import com.jerryio.publicbin.enums.ModeEnum;
 import com.jerryio.publicbin.enums.OrderEnum;
+import com.jerryio.publicbin.enums.WarningEnum;
 import com.jerryio.publicbin.util.I18n;
 import com.jerryio.publicbin.util.PluginLog;
 
 public class PluginSetting {
     
-//    private PublicBinPlugin plugin;
-    
+    public static final String[] OLD_CONFIG_MD5_CHECKSUMS = {
+            "1a3144fbbd4835c947010725b681e6c5"
+    };
+
     private YamlConfiguration config;
 
     public static PluginSetting load(PublicBinPlugin plugin) {
-        // important, in order to keep all comment messages in the file, use this method to save the default config file
-        
-        File configFile = new File(plugin.getDataFolder(), "config.yml");
-        if (!configFile.exists()) {
-            plugin.getDataFolder().mkdirs();
-            plugin.saveResource("config.yml", true);
-        }
-        
-        YamlConfiguration config = new YamlConfiguration();
-        try {
-            config.load(configFile);
-        } catch (InvalidConfigurationException e) {
-            e.printStackTrace();
-            PluginLog.log(Level.WARNING, "The configuration is not a valid YAML file! Please check it with a tool like http://yaml-online-parser.appspot.com/");
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            PluginLog.log(Level.WARNING, "I/O error while reading the configuration. Was the file in use?");
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            PluginLog.log(Level.WARNING, "Unhandled exception while reading the configuration!");
-            return null;
-        }
-
-        return new PluginSetting(config);
+        return new PluginSetting(AutoUpdateYamlConfigHandler.loadYaml(plugin, "config.yml", OLD_CONFIG_MD5_CHECKSUMS));
     }
     
     private PluginSetting(YamlConfiguration config) {
-        this.config = config;
+        if (config != null) {
+            this.config = config;
+        } else {
+            this.config = new YamlConfiguration();
+        }
     }
     
     @Deprecated
@@ -76,7 +55,23 @@ public class PluginSetting {
     }
     
     public int getKeepingTime() {
-        return config.getInt("countdown-despawn.time", 0);
+        return config.getInt("countdown-despawn.time", 300);
+    }
+    
+    public boolean isClearIntervalsEnabled() {
+        return config.getBoolean("clear-intervals.enable", false);
+    }
+    
+    public int getClearIntervalsTime() {
+        return config.getInt("clear-intervals.time", 600);
+    }
+    
+    public WarningEnum getClearWarningMessageType() {
+        return "actionbar".equalsIgnoreCase(config.getString("clear-intervals.warnings.type")) ? WarningEnum.ACTIONBAR : WarningEnum.TYPE; 
+    }
+    
+    public List<Integer> getClearWarningPeriod() {
+        return config.getIntegerList("clear-intervals.warnings.period"); 
     }
     
     public boolean isRmoveWhenFullEnabled() {
@@ -97,6 +92,10 @@ public class PluginSetting {
     
     public OrderEnum[] getSmartGroupingPrincipleList() {
         return getPrincipleList("smart-grouping.order");
+    }
+    
+    public boolean isCollectDespawnEnabled() {
+        return config.getBoolean("collect-despawn.enable", false);
     }
     
     public boolean isDebug() {

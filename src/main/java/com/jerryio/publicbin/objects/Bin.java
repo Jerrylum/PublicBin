@@ -54,6 +54,10 @@ public abstract class Bin {
         if (scheduledUpdateTask != null)
             Bukkit.getScheduler().cancelTask(scheduledUpdateTask.getTaskId());
     }
+    
+    public void openInventory(HumanEntity player) {
+        Bukkit.getScheduler().runTask(PublicBinPlugin.getInstance(), () -> player.openInventory(getInventory()));
+    }    
 
     public Inventory getInventory() {
         return inventory;

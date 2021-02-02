@@ -3,23 +3,18 @@ package com.jerryio.publicbin.test.objects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import com.jerryio.publicbin.PublicBinPlugin;
-import com.jerryio.publicbin.commands.BinCommandHandler;
-import com.jerryio.publicbin.objects.Bin;
-import com.jerryio.publicbin.objects.BinManager;
-import com.jerryio.publicbin.test.StandardTest;
-import com.jerryio.publicbin.test.mock.CustomPlayerMock;
-
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.permissions.PermissionAttachment;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jerryio.publicbin.PublicBinPlugin;
+import com.jerryio.publicbin.test.StandardTest;
+import com.jerryio.publicbin.test.mock.CustomPlayerMock;
+
 import be.seeseemelk.mockbukkit.MockBukkit;
-import be.seeseemelk.mockbukkit.ServerMock;
 
 public class BinManagerTest extends StandardTest {
     private CustomPlayerMock player2;
@@ -55,6 +50,8 @@ public class BinManagerTest extends StandardTest {
         handler.onCommand(player1, null, "bin", new String[] {});
         handler.onCommand(player2, null, "bin", new String[] {});
         
+        server.getScheduler().performTicks(1);
+        
         assertEquals(manager.getUsableBin(player1).getInventory(), player1.getOpenInventory().getTopInventory());
         assertEquals(manager.getUsableBin(player2).getInventory(), player2.getOpenInventory().getTopInventory());
         assertEquals(manager.getUsableBin(player1).getInventory(), manager.getUsableBin(player2).getInventory());
@@ -64,6 +61,10 @@ public class BinManagerTest extends StandardTest {
         
         PlayerQuitEvent event2 = new PlayerQuitEvent(player2, "Tigger quit event");
         Bukkit.getPluginManager().callEvent(event2);
+        
+        manager.close();
+        manager.close();
+        manager.close();
     }
     
     @Test
@@ -76,6 +77,8 @@ public class BinManagerTest extends StandardTest {
         handler.onCommand(player1, null, "bin", new String[] {});
         handler.onCommand(player2, null, "bin", new String[] {});
         
+        server.getScheduler().performTicks(1);
+        
         assertEquals(manager.getUsableBin(player1).getInventory(), player1.getOpenInventory().getTopInventory());
         assertEquals(manager.getUsableBin(player2).getInventory(), player2.getOpenInventory().getTopInventory());
         assertNotEquals(manager.getUsableBin(player1).getInventory(), manager.getUsableBin(player2).getInventory());
@@ -85,6 +88,18 @@ public class BinManagerTest extends StandardTest {
         
         PlayerQuitEvent event2 = new PlayerQuitEvent(player2, "Tigger quit event");
         Bukkit.getPluginManager().callEvent(event2);
+        
+        manager.close();
+        manager.close();
+        manager.close();
+    }
+    
+    @Test
+    public void testTrackDroppedItem() {
+        manager = PublicBinPlugin.getBinManager();
+        
+        manager.trackDroppedItem(null);
+        manager.untrackDroppedItem(null);
     }
 
     @After

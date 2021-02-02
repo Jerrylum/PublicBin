@@ -55,6 +55,9 @@ public class ShareModeCommandTest extends StandardTest {
     public void testDefaultUseCommandWithPermission() {
         pa1.setPermission("publicbin.use", true);
         handler.onCommand(player1, null, "bin", new String[] {});
+        
+        server.getScheduler().performTicks(1);
+        
         assertEquals(manager.getUsableBin(player1).getInventory(), player1.getOpenInventory().getTopInventory());
     }
     
@@ -77,6 +80,9 @@ public class ShareModeCommandTest extends StandardTest {
     public void testUseCommandWithPermission() {
         pa1.setPermission("publicbin.use", true);
         handler.onCommand(player1, null, "bin", new String[] {"use"});
+        
+        server.getScheduler().performTicks(1);
+        
         assertEquals(manager.getUsableBin(player1).getInventory(), player1.getOpenInventory().getTopInventory());
     }
     

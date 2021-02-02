@@ -13,6 +13,7 @@ import com.jerryio.publicbin.commands.BinCommandHandler;
 import com.jerryio.publicbin.disk.PluginSetting;
 import com.jerryio.publicbin.listener.MainListener;
 import com.jerryio.publicbin.objects.BinManager;
+import com.jerryio.publicbin.update.PublicBinUpdateChecker;
 import com.jerryio.publicbin.util.I18n;
 import com.jerryio.publicbin.util.PluginLog;
 
@@ -25,7 +26,9 @@ public class PublicBinPlugin extends JavaPlugin {
     public BinCommandHandler commandHandler;
 
     public BinManager binManager;
-    
+
+    private boolean cacheUsedReloadCommand;
+
     public PublicBinPlugin() {
         super();
     }
@@ -44,7 +47,7 @@ public class PublicBinPlugin extends JavaPlugin {
         setting = PluginSetting.load(this);
         
         // initial language setting
-        I18n.load(setting.getLang());
+        I18n.load(this);
 
         // initial command handler
         commandHandler = BinCommandHandler.load(this);
@@ -59,6 +62,8 @@ public class PublicBinPlugin extends JavaPlugin {
         PluginLog.setDebugEnabled(setting.isDebug());
 
         doPrintDebugMsg();
+        
+        doCheckUpdates();
         
         doMetricsSend();
     }
@@ -83,7 +88,7 @@ public class PublicBinPlugin extends JavaPlugin {
         }
 
         // initial language setting
-        I18n.load(setting.getLang());
+        I18n.load(this);
 
         // initial bin manager
         binManager = BinManager.load(this);
@@ -113,10 +118,7 @@ public class PublicBinPlugin extends JavaPlugin {
 
     private void doSingletonPatternCheckAndInitial() {
         // Warn about plugin reloaders and the /reload command.
-        if (instance != null || System.getProperty("PublicBinLoaded") != null) {
-            // important, don't use PluginLog here
-            getLogger().log(Level.WARNING, I18n.t("plugin-singleton-warning"));
-        }
+        cacheUsedReloadCommand = instance != null || System.getProperty("PublicBinLoaded") != null;
 
         System.setProperty("PublicBinLoaded", "true");
         instance = this;
@@ -128,14 +130,29 @@ public class PublicBinPlugin extends JavaPlugin {
 
     private void doPrintDebugMsg() {
         PluginLog.info(I18n.t("plugin-enabled", setting.isDebug()));
+        
+        if (cacheUsedReloadCommand) {
+            PluginLog.log(Level.WARNING, I18n.t("plugin-singleton-warning"));
+        }
+        
         if (setting.isDebug()) { // optimization
             PluginLog.logDebug(Level.INFO, "Using mode = " + setting.getMode());
             PluginLog.logDebug(Level.INFO,
                     "Despawn = " + setting.isAutoDespawnEnabled() + " & time = " + setting.getKeepingTime());
+            PluginLog.logDebug(Level.INFO,
+                    "Clear intervals = " + setting.isClearIntervalsEnabled() + " & time = " + setting.getClearIntervalsTime() + " & warning type = "
+                    + setting.getClearWarningMessageType());
             PluginLog.logDebug(Level.INFO, "Auto remove = " + setting.isRmoveWhenFullEnabled() + " & threshold = "
                     + setting.getKeepingTime() + " & order = " + Arrays.toString(setting.getAutoRemovePrincipleList()));
             PluginLog.logDebug(Level.INFO, "Smart grouping = " + setting.isSmartGroupingEnabled() + " & order = "
                     + Arrays.toString(setting.getSmartGroupingPrincipleList()));
+            PluginLog.logDebug(Level.INFO, "Collect despawn = " + setting.isCollectDespawnEnabled());
+        }
+    }
+    
+    private void doCheckUpdates() {
+        if (System.getProperty("MockTest") == null) {            
+            new PublicBinUpdateChecker(this).checkForUpdates();
         }
     }
     

@@ -28,7 +28,7 @@ clear-intervals:
     type: actionbar
     # Output a clear warning whenever there is a certain amount of time
     # remaining. (in seconds)
-    period: [60, 30, 10, 0]
+    period: [180, 120, 60, 30, 10, 0]
 
 # Remove items when there is not much space left
 remove-when-full:
@@ -56,11 +56,6 @@ smart-grouping:
   - durability
   - amount
   - time
-
-# put all dropped items that are about to disappear in the server into the 
-# public trash bin
-collect-despawn:
-  enable: false
   
 debug: false
 
