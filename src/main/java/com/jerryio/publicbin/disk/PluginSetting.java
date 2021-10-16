@@ -16,7 +16,7 @@ import com.jerryio.publicbin.util.PluginLog;
 public class PluginSetting {
     
     public static final String[] OLD_CONFIG_MD5_CHECKSUMS = {
-            "1a3144fbbd4835c947010725b681e6c5"
+            "1a3144fbbd4835c947010725b681e6c5", "CD36233E47A5C216C3580FE5BB9CBF9A"
     };
 
     private YamlConfiguration config;

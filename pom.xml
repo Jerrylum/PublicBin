@@ -5,7 +5,7 @@
 	<groupId>com.jerryio.publicbin</groupId>
 	<artifactId>PublicBin</artifactId>
 
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<name>PublicBin</name>
 	<inceptionYear>2020</inceptionYear>
 	<packaging>jar</packaging>
