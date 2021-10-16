@@ -23,10 +23,10 @@ public class CustomPlayerMock extends PlayerMock {
         locale = str;
     }
     
-    @Override
-    public org.bukkit.entity.Player.Spigot spigot() {
-        return new MockSpigot();
-    }
+    // @Override
+    // public org.bukkit.entity.Player.Spigot spigot() {
+    //     return new MockSpigot();
+    // }
     
     @Override
     public void playSound(Location location, String sound, float volume, float pitch) {
