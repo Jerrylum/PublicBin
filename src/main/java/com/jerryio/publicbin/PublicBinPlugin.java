@@ -161,7 +161,7 @@ public class PublicBinPlugin extends JavaPlugin {
             Class.forName("com.google.gson.JsonElement");
             if (System.getProperty("MockTest") == null) {
                 Metrics metrics = new Metrics(this, 9744);
-                metrics.addCustomChart(new Metrics.SimplePie("using_mode", () ->  setting.getMode().toString()));
+                // metrics.addCustomChart(new Metrics.SimplePie("using_mode", () ->  setting.getMode().toString()));
             }
         } catch (Exception e) {
             // nothing to do
